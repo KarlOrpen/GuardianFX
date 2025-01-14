@@ -13,4 +13,6 @@ module cz.korpen.guardianfx {
 
     opens cz.korpen.guardianfx to javafx.fxml;
     exports cz.korpen.guardianfx;
+    exports cz.korpen.guardianfx.controllers;
+    opens cz.korpen.guardianfx.controllers to javafx.fxml;
 }

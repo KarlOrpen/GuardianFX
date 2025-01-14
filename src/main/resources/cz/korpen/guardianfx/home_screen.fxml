@@ -47,7 +47,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.korpen.guardianfx.HomeScreenController">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.korpen.guardianfx.controllers.HomeScreenController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
@@ -68,7 +68,7 @@
                            <children>
                               <Button fx:id="homeButton" disable="true" mnemonicParsing="false" prefHeight="124.0" prefWidth="297.0" text="Home Screen" />
                               <Button fx:id="categoryButton" mnemonicParsing="false" prefHeight="171.0" prefWidth="383.0" text="Category Management" GridPane.rowIndex="2" />
-                              <Button fx:id="receiptButton" mnemonicParsing="false" prefHeight="188.0" prefWidth="217.0" text="Receipt Management" GridPane.rowIndex="1" />
+                              <Button fx:id="receiptButton" mnemonicParsing="false" onAction="#switchToReceipts" prefHeight="188.0" prefWidth="217.0" text="Receipt Management" GridPane.rowIndex="1" />
                               <Button fx:id="reportButton" mnemonicParsing="false" prefHeight="165.0" prefWidth="356.0" text="Report Screen" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>

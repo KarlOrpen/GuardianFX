@@ -1,17 +1,20 @@
 package cz.korpen.guardianfx;
 
 import java.time.LocalDate;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Receipt {
-    private int id;
+    private static final AtomicInteger idCounter = new AtomicInteger(0); // Static AtomicInteger for generating unique IDs
+
+    private final int id;
     private String title;
     private double cost;
     private LocalDate dateOfPurchase;
     private String imagePath;
     private PurchaseCategory purchaseCategory;
 
-    public Receipt(int id, String title, double cost, LocalDate dateOfPurchase, PurchaseCategory purchaseCategory) {
-        this.id = id;
+    public Receipt(String title, double cost, LocalDate dateOfPurchase, PurchaseCategory purchaseCategory) {
+        this.id = idCounter.incrementAndGet();
         this.title = title;
         this.cost = cost;
         this.dateOfPurchase = dateOfPurchase;
@@ -22,10 +25,6 @@ public class Receipt {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getTitle() {

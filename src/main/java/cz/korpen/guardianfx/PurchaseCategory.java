@@ -78,4 +78,9 @@ public class PurchaseCategory {
     public List<Receipt> getReceipts() {
         return new ArrayList<>(receipts); // Return an immutable copy
     }
+
+    @Override
+    public String toString() {
+        return categoryName;
+    }
 }

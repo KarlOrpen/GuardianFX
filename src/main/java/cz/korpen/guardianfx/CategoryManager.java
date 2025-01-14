@@ -1,6 +1,5 @@
 package cz.korpen.guardianfx;
 
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -10,8 +9,24 @@ import java.util.stream.Collectors;
 public class CategoryManager {
     private List<PurchaseCategory> categories;
 
-    public CategoryManager() {
+    // Private constructor to prevent instantiation
+    private CategoryManager() {
         this.categories = new ArrayList<>();
+        PurchaseCategory food = new PurchaseCategory(1, "FOOD", "Food");
+        PurchaseCategory entertainment = new PurchaseCategory(2, "ENTERTAINMENT", "Entertainment");
+        addCategory(food);
+        addCategory(entertainment);
+    }
+
+    // Inner static class responsible for holding the singleton instance
+    private static class SingletonHelper {
+        // This will be loaded when it is referenced (lazy initialization)
+        private static final CategoryManager INSTANCE = new CategoryManager();
+    }
+
+    // Public method to access the singleton instance
+    public static CategoryManager getInstance() {
+        return SingletonHelper.INSTANCE;
     }
 
     // Add a new category
@@ -91,4 +106,6 @@ public class CategoryManager {
                 .filter(receipt -> receipt.getDateOfPurchase().getYear() == year)
                 .collect(Collectors.toList());
     }
+
+
 }

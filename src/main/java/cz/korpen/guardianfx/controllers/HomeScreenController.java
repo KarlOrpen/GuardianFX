@@ -1,16 +1,23 @@
-package cz.korpen.guardianfx;
+package cz.korpen.guardianfx.controllers;
 
+import cz.korpen.guardianfx.CategoryManager;
+import cz.korpen.guardianfx.PurchaseCategory;
+import cz.korpen.guardianfx.Receipt;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -56,22 +63,15 @@ public class HomeScreenController {
     private TableColumn<Receipt, String> categoryColumn;
 
     public void initialize() {
-        categoryManager = new CategoryManager();
+        categoryManager = CategoryManager.getInstance();
         selectedYear = LocalDate.now().getYear();
-        addTestReceipts();
+        initializeSpinner();
         updateLabel();
         populateChart(selectedYear);
         initializeTableColumns();
 
-        // Initialize the spinner to select years
-        yearSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(LocalDate.now().minusYears(25).getYear(), LocalDate.now().plusYears(2).getYear(), LocalDate.now().getYear()));
-        yearSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
-            selectedYear = newValue;
-            updateLabel();
-            populateChart(selectedYear);
-            populateTable(selectedYear);
-        });
     }
+
 
     public void addTestReceipts() {
         // Create sample categories and add them to the category manager
@@ -81,10 +81,21 @@ public class HomeScreenController {
         categoryManager.addCategory(entertainment);
 
         // Create sample receipts and add them to the categories
-        Receipt hamburger = new Receipt(1, "Hamburger", 100.0, LocalDate.of(2025, 01, 01), food);
-        Receipt cola = new Receipt(2, "Coca-cola", 50.0, LocalDate.of(2025, 01, 01), food);
-        Receipt movieTicket = new Receipt(3, "Movie Ticket", 200.0, LocalDate.of(2025, 02, 10), entertainment);
-        Receipt concertTicket = new Receipt(4, "Concert Ticket", 300.0, LocalDate.of(2025, 03, 15), entertainment);
+        Receipt hamburger = new Receipt("Hamburger", 100.0, LocalDate.of(2025, 01, 01), food);
+        Receipt cola = new Receipt("Coca-cola", 50.0, LocalDate.of(2025, 01, 01), food);
+        Receipt movieTicket = new Receipt("Movie Ticket", 200.0, LocalDate.of(2025, 02, 10), entertainment);
+        Receipt concertTicket = new Receipt("Concert Ticket", 300.0, LocalDate.of(2025, 03, 15), entertainment);
+    }
+
+    public void initializeSpinner() {
+        // Initialize the spinner to select years
+        yearSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(LocalDate.now().minusYears(25).getYear(), LocalDate.now().plusYears(2).getYear(), LocalDate.now().getYear()));
+        yearSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+            selectedYear = newValue;
+            updateLabel();
+            populateChart(selectedYear);
+            populateTable(selectedYear);
+        });
     }
 
     private void updateLabel() {
@@ -138,6 +149,24 @@ public class HomeScreenController {
         populateTable(selectedYear);
     }
 
+    public void switchToReceipts() {
+        // Set up the button action for switching screens
+            try {
+                // Load the new FXML screen
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/cz/korpen/guardianfx/receipt_screen.fxml"));
+                Parent root = loader.load();
+
+                // Get the current stage (window)
+                Stage stage = (Stage) receiptButton.getScene().getWindow();
+                Scene scene = new Scene(root);
+
+                // Set the new scene to the stage and show the new screen
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
 
 }
 
