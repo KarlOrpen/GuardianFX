@@ -1,8 +1,8 @@
-package cz.korpen.guardianfx.controllers;
+package cz.korpen.guardianfx.controllers.dialogs;
 
-import cz.korpen.guardianfx.CategoryManager;
-import cz.korpen.guardianfx.PurchaseCategory;
-import cz.korpen.guardianfx.Receipt;
+import cz.korpen.guardianfx.manager.CategoryManager;
+import cz.korpen.guardianfx.manager.PurchaseCategory;
+import cz.korpen.guardianfx.manager.Receipt;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -13,8 +13,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public class ReceiptDialogController {
+public class ReceiptDialogController extends BaseDialogController {
 
+    ListView<Receipt> receiptListView;
     @FXML
     private Button addReceiptButton;
 
@@ -29,9 +30,6 @@ public class ReceiptDialogController {
 
     @FXML
     private DatePicker dateOfPurchasePicker;
-
-    @FXML
-    private Button discardButton;
 
     @FXML
     private Button selectImageButton;
@@ -83,6 +81,9 @@ public class ReceiptDialogController {
         if (isValid) {
             Receipt receipt = new Receipt(title, cost, selectedDate, purchaseCategory);
 
+            if (receiptListView != null) {
+                receiptListView.getItems().add(receipt);
+            }
             // Show success message
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success");
@@ -95,18 +96,6 @@ public class ReceiptDialogController {
             stage.close();
         }
     }
-
-
-    @FXML
-    void closeDialog(ActionEvent event) {
-        boolean confirm = showConfirmationDialog("Confirmation", "Are you sure you want to cancel?");
-        if (confirm) {
-            // Close the dialog window
-            ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
-        }
-    }
-
-
     @FXML
     void pickFilePath(ActionEvent event) {
 
@@ -119,7 +108,7 @@ public class ReceiptDialogController {
     }
 
     private void populateComboBox() {
-        List<PurchaseCategory> categories = CategoryManager.getInstance().getCategories();
+        List<PurchaseCategory> categories = CategoryManager.getInstance().getPurchaseCategories();
 
         // Add categories to the ComboBox
         categoryComboBox.getItems().setAll(categories);
@@ -129,17 +118,9 @@ public class ReceiptDialogController {
             categoryComboBox.setValue(categories.get(0)); // Select the first category by default
         }
     }
-    public boolean showConfirmationDialog(String title, String message) {
-        // Create a confirmation alert
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null); // Optional, can be used for a header
-        alert.setContentText(message);
 
-        // Show the dialog and wait for the user's response
-        Optional<ButtonType> result = alert.showAndWait();
-        return result.isPresent() && result.get() == ButtonType.OK; // Returns true if "Yes" (OK) is selected
+    public void setReceiptListView(ListView<Receipt> receiptListView) {
+        this.receiptListView = receiptListView;
     }
-
 }
 

@@ -1,7 +1,8 @@
 package cz.korpen.guardianfx.controllers;
 
-import cz.korpen.guardianfx.CategoryManager;
-import cz.korpen.guardianfx.Receipt;
+import cz.korpen.guardianfx.controllers.dialogs.ReceiptDialogController;
+import cz.korpen.guardianfx.manager.CategoryManager;
+import cz.korpen.guardianfx.manager.Receipt;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,7 +21,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
-public class ReceiptScreenController {
+public class ReceiptScreenController extends BaseMenuController {
     CategoryManager categoryManager = CategoryManager.getInstance();
     int selectedYear = LocalDate.now().getYear();
 
@@ -45,6 +46,9 @@ public class ReceiptScreenController {
     @FXML
     private Button reportButton;
 
+    @FXML
+    private Button incomeButton;
+
     public void initialize() {
         setUpSpinner();
         updateReceiptList(); // Initially populate the list with receipts
@@ -52,33 +56,11 @@ public class ReceiptScreenController {
 
     // Method to update the receipt list based on the selected year
     private void updateReceiptList() {
-        List<Receipt> receipts = categoryManager.giveYearlyReport(selectedYear);
+        List<Receipt> receipts = categoryManager.giveYearlyCostReport(selectedYear);
 
         // Set the items to the ListView
         ObservableList<Receipt> receiptObservableList = FXCollections.observableArrayList(receipts);
         receiptListView.setItems(receiptObservableList);
-    }
-
-    @FXML
-    private void switchToHome() {
-        try {
-            // Load the home screen FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cz/korpen/guardianfx/home_screen.fxml"));
-
-            // Load the FXML and get the root node
-            Parent homeRoot = loader.load();
-
-            // Get the current primary stage
-            Scene homeScene = new Scene(homeRoot);
-
-            // Set the scene to the primary stage
-            Stage stage = (Stage) homeButton.getScene().getWindow();
-            stage.setScene(homeScene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle potential errors, such as FXML not found or loading issues
-        }
     }
 
     public void setUpSpinner() {
@@ -107,7 +89,7 @@ public class ReceiptScreenController {
 
             // Get the controller of the dialog (optional)
             ReceiptDialogController dialogController = loader.getController();
-
+            dialogController.setReceiptListView(receiptListView);
             // Create a new scene for the dialog
             Scene dialogScene = new Scene(root);
 

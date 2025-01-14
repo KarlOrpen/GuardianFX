@@ -32,22 +32,17 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.korpen.guardianfx.controllers.HomeScreenController">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.korpen.guardianfx.controllers.RecCatScreenController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
@@ -66,8 +61,8 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button fx:id="homeButton" disable="true" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="124.0" prefWidth="297.0" text="Home Screen" />
-                              <Button fx:id="categoryButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="171.0" prefWidth="383.0" text="Receipt Category Management" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="2" />
+                              <Button fx:id="homeButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="124.0" prefWidth="297.0" text="Home Screen" />
+                              <Button fx:id="categoryButton" disable="true" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="171.0" prefWidth="383.0" text="Receipt Category Management" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="2" />
                               <Button fx:id="receiptButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="188.0" prefWidth="217.0" text="Receipt Management" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1" />
                               <Button fx:id="reportButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="165.0" prefWidth="356.0" text="Report Screen" GridPane.rowIndex="3" />
                            </children>
@@ -76,38 +71,27 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="397.0" prefWidth="261.0">
                      <children>
-                        <GridPane prefHeight="397.3333333333333" prefWidth="363.3333333333333" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints maxHeight="122.33329772949219" minHeight="0.0" prefHeight="49.66666539510091" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="317.0" minHeight="10.0" prefHeight="62.33333460489909" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="317.0" minHeight="10.0" prefHeight="161.33336893717447" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="145.33327229817706" minHeight="10.0" prefHeight="140.6666310628255" vgrow="SOMETIMES" />
-                          </rowConstraints>
+                        <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="397.0" prefWidth="261.0">
                            <children>
-                              <Spinner fx:id="yearSpinner" prefHeight="71.0" prefWidth="362.0" />
-                              <Label fx:id="reportLabel" prefHeight="156.0" prefWidth="378.0" text="Label" GridPane.rowIndex="1" />
-                              <BarChart fx:id="reportChart" GridPane.rowIndex="2">
-                                <xAxis>
-                                  <CategoryAxis fx:id="monthAxis" side="BOTTOM" />
-                                </xAxis>
-                                <yAxis>
-                                  <NumberAxis fx:id="costAxis" side="LEFT" />
-                                </yAxis>
-                              </BarChart>
-                              <TableView fx:id="lastReceiptsTable" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
-                                <columns>
-                                  <TableColumn fx:id="idColumn" prefWidth="38.666624665260315" text="ID" />
-                                  <TableColumn fx:id="titleColumn" prefWidth="107.99999618530273" text="Title" />
-                                    <TableColumn fx:id="costColumn" prefWidth="64.6666259765625" text="Cost" />
-                                    <TableColumn fx:id="dateColumn" prefWidth="53.33332824707031" text="Date" />
-                                    <TableColumn fx:id="categoryColumn" editable="false" prefWidth="94.6666259765625" text="Category" />
-                                </columns>
-                              </TableView>
+                              <GridPane layoutY="-12.666666666666666" prefHeight="410.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-90.0" AnchorPane.topAnchor="-13.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints maxHeight="122.33329772949219" minHeight="0.0" prefHeight="44.6666742960612" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="369.99999618530273" minHeight="10.0" prefHeight="351.99999237060547" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <ListView fx:id="receiptCategoryListView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Button fx:id="addReceiptCategoryButton" mnemonicParsing="false" onAction="#handleAddReceiptCategory" prefHeight="100.0" prefWidth="408.0" text="Add receipt category" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </GridPane>
                            </children>
-                        </GridPane>
+                        </AnchorPane>
                      </children>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="397.0" prefWidth="490.0">

@@ -47,7 +47,7 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
-            <SplitPane dividerPositions="0.23901673640167367, 0.8179916317991633" prefHeight="400.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
+            <SplitPane dividerPositions="0.23901673640167367, 0.8179916317991633" prefHeight="400.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="397.0" prefWidth="153.0">
                      <children>
@@ -62,10 +62,10 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button fx:id="homeButton" mnemonicParsing="false" onAction="#switchToHome" prefHeight="124.0" prefWidth="297.0" text="Home Screen" />
-                              <Button fx:id="categoryButton" mnemonicParsing="false" prefHeight="171.0" prefWidth="383.0" text="Category Management" GridPane.rowIndex="2" />
-                              <Button fx:id="receiptButton" disable="true" mnemonicParsing="false" prefHeight="188.0" prefWidth="217.0" text="Receipt Management" GridPane.rowIndex="1" />
-                              <Button fx:id="reportButton" mnemonicParsing="false" prefHeight="165.0" prefWidth="356.0" text="Report Screen" GridPane.rowIndex="3" />
+                              <Button fx:id="homeButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="124.0" prefWidth="297.0" text="Home Screen" />
+                              <Button fx:id="categoryButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="171.0" prefWidth="383.0" text="Receipt Category Management" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="2" />
+                              <Button fx:id="receiptButton" disable="true" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="188.0" prefWidth="217.0" text="Receipt Management" GridPane.rowIndex="1" />
+                              <Button fx:id="reportButton" mnemonicParsing="false" prefHeight="165.0" prefWidth="356.0" onAction="#handleButtonAction" text="Report Screen" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                      </children>
@@ -84,7 +84,7 @@
                               <ListView fx:id="receiptListView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Button fx:id="addReceiptButton" onAction="#handleAddReceipt" mnemonicParsing="false" prefHeight="45.0" prefWidth="235.0" text="Add receipt" />
+                                    <Button fx:id="addReceiptButton" mnemonicParsing="false" onAction="#handleAddReceipt" prefHeight="45.0" prefWidth="235.0" text="Add receipt" />
                                     <Spinner fx:id="receiptYearSpinner" prefHeight="55.0" prefWidth="182.0" />
                                  </children>
                               </HBox>
@@ -104,12 +104,12 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
-                           <children>
-                              <Button mnemonicParsing="false" prefHeight="236.0" prefWidth="315.0" text="Button" />
-                              <Button mnemonicParsing="false" prefHeight="147.0" prefWidth="205.0" text="Button" GridPane.rowIndex="1" />
-                              <Button mnemonicParsing="false" prefHeight="310.0" prefWidth="310.0" text="Button" GridPane.rowIndex="2" />
-                              <Button mnemonicParsing="false" prefHeight="180.0" prefWidth="209.0" text="Button" GridPane.rowIndex="3" />
-                           </children>
+                            <children>
+                                <Button mnemonicParsing="false" disable="true" prefHeight="236.0" prefWidth="315.0" text="Button" />
+                                <Button fx:id="incomeButton" mnemonicParsing="false" prefHeight="147.0" prefWidth="205.0" onAction="#handleButtonAction" text="Income Management" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1" />
+                                <Button mnemonicParsing="false" prefHeight="310.0" prefWidth="310.0" onAction="#handleButtonAction" text="Income Category Management" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="2" />
+                                <Button mnemonicParsing="false" disable="true" prefHeight="180.0" prefWidth="209.0" text="Button" GridPane.rowIndex="3" />
+                            </children>
                         </GridPane>
                      </children>
                   </AnchorPane>

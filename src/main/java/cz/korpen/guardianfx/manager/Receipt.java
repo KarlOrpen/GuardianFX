@@ -1,4 +1,4 @@
-package cz.korpen.guardianfx;
+package cz.korpen.guardianfx.manager;
 
 import java.time.LocalDate;
 import java.util.concurrent.atomic.AtomicInteger;
