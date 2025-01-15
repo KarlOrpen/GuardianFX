@@ -10,6 +10,7 @@ module cz.korpen.guardianfx {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires org.apache.pdfbox;
 
     opens cz.korpen.guardianfx to javafx.fxml;
     exports cz.korpen.guardianfx;

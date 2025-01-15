@@ -15,6 +15,7 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 640, 400);
         stage.setTitle("EnGarde!");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 
