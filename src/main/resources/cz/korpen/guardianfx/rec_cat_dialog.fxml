@@ -11,7 +11,7 @@
          <children>
             <TextField fx:id="titleTextField" layoutX="21.0" layoutY="23.0" prefHeight="25.0" prefWidth="325.0" promptText="Insert category title" />
             <TextField fx:id="descriptionTextField" layoutX="21.0" layoutY="61.0" prefHeight="25.0" prefWidth="325.0" promptText="Insert category description" />
-            <Button fx:id="addReceiptButton" defaultButton="true" layoutX="22.0" layoutY="273.0" mnemonicParsing="false" onAction="#addReceiptCategory" prefHeight="98.0" prefWidth="109.0" text="Add category" />
+            <Button fx:id="actionButton" defaultButton="true" layoutX="22.0" layoutY="273.0" mnemonicParsing="false" onAction="#addReceiptCategory" prefHeight="98.0" prefWidth="109.0" text="Add category" />
             <Button fx:id="backButton" cancelButton="true" layoutX="236.0" layoutY="322.0" mnemonicParsing="false" onAction="#closeDialog" prefHeight="44.0" prefWidth="109.0" text="Back" />
          </children>
       </AnchorPane>

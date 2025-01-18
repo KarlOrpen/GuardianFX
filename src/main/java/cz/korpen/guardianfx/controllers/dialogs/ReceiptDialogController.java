@@ -5,37 +5,18 @@ import cz.korpen.guardianfx.manager.PurchaseCategory;
 import cz.korpen.guardianfx.manager.Receipt;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
-public class ReceiptDialogController extends BaseDialogController {
+public class ReceiptDialogController extends ItemDialogController<Receipt, PurchaseCategory> {
 
     ListView<Receipt> receiptListView;
-    @FXML
-    private Button addReceiptButton;
-
-    @FXML
-    private Button backButton;
-
-    @FXML
-    private ComboBox<PurchaseCategory> categoryComboBox;
-
-    @FXML
-    private TextField costTextField;
-
-    @FXML
-    private DatePicker dateOfPurchasePicker;
 
     @FXML
     private Button selectImageButton;
-
-    @FXML
-    private TextField titleTextField;
 
     @FXML
     void addReceipt(ActionEvent event) {
@@ -44,12 +25,12 @@ public class ReceiptDialogController extends BaseDialogController {
         boolean isValid = true;
 
         // Validate cost field
-        if (costTextField.getText() == null || costTextField.getText().isEmpty()) {
+        if (valueTextField.getText() == null || valueTextField.getText().isEmpty()) {
             System.out.println("Cost field is empty. Please enter a valid number.");
             isValid = false;
         } else {
             try {
-                cost = Double.parseDouble(costTextField.getText());
+                cost = Double.parseDouble(valueTextField.getText());
                 if (cost < 0) {
                     System.out.println("Cost cannot be negative. Please enter a positive number.");
                     isValid = false;
@@ -62,11 +43,11 @@ public class ReceiptDialogController extends BaseDialogController {
 
         // Validate date field
         LocalDate selectedDate = null;
-        if (dateOfPurchasePicker.getValue() == null) {
+        if (datePicker.getValue() == null) {
             System.out.println("No date selected. Please select a valid date.");
             isValid = false;
         } else {
-            selectedDate = dateOfPurchasePicker.getValue();
+            selectedDate = datePicker.getValue();
         }
 
         // Validate category
@@ -92,7 +73,7 @@ public class ReceiptDialogController extends BaseDialogController {
             alert.showAndWait();
 
             // Close the dialog
-            Stage stage = (Stage) addReceiptButton.getScene().getWindow();
+            Stage stage = (Stage) actionButton.getScene().getWindow();
             stage.close();
         }
     }
@@ -102,21 +83,13 @@ public class ReceiptDialogController extends BaseDialogController {
     }
 
     public void initialize() {
-        dateOfPurchasePicker.setValue(LocalDate.now());
+        datePicker.setValue(LocalDate.now());
         populateComboBox();
-        CategoryManager categoryManager = CategoryManager.getInstance();
     }
 
     private void populateComboBox() {
         List<PurchaseCategory> categories = CategoryManager.getInstance().getPurchaseCategories();
-
-        // Add categories to the ComboBox
-        categoryComboBox.getItems().setAll(categories);
-
-        // Optionally, set the default selection (if needed)
-        if (!categories.isEmpty()) {
-            categoryComboBox.setValue(categories.get(0)); // Select the first category by default
-        }
+        populateComboBox(categories);
     }
 
     public void setReceiptListView(ListView<Receipt> receiptListView) {

@@ -1,23 +1,28 @@
 package cz.korpen.guardianfx.controllers.dialogs;
 
+import cz.korpen.guardianfx.manager.CategoryManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.util.Optional;
 
 public abstract class BaseDialogController<T, C> {
 
+    CategoryManager categoryManager = CategoryManager.getInstance();
     protected ListView<T> listView;
     protected T entity;
 
+    @FXML
     protected TextField titleTextField;
 
+    @FXML
+    protected Button actionButton;
+
+    @FXML
+    protected Button backButton;
     // Common method to show a confirmation dialog
     @FXML
     protected boolean showConfirmationDialog(String title, String message) {

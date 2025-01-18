@@ -13,20 +13,10 @@ import javafx.stage.Stage;
 
 public class IncCatDialogController extends BaseDialogController {
 
-    CategoryManager categoryManager = CategoryManager.getInstance();
     ListView<IncomeCategory> incomeCategoryListView;
 
     @FXML
-    private Button addReceiptButton;
-
-    @FXML
-    private Button backButton;
-
-    @FXML
     private TextField descriptionTextField;
-
-    @FXML
-    private TextField titleTextField;
 
     @FXML
     void addReceiptCategory(ActionEvent event) {
@@ -49,7 +39,7 @@ public class IncCatDialogController extends BaseDialogController {
             alert.showAndWait();
 
             // Close the dialog
-            Stage stage = (Stage) addReceiptButton.getScene().getWindow();
+            Stage stage = (Stage) actionButton.getScene().getWindow();
             stage.close();
         }
     }

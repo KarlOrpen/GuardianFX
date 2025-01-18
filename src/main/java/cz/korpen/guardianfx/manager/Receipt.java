@@ -71,6 +71,7 @@ public class Receipt {
     public void changeCategory(PurchaseCategory originalCategory, PurchaseCategory newCategory) {
         newCategory.addReceipt(this);
         originalCategory.removeReceipt(this);
+        this.purchaseCategory = newCategory;
     }
 
     @Override

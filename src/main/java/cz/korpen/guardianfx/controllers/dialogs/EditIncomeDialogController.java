@@ -11,29 +11,10 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.util.List;
 
-public class EditIncomeDialogController extends BaseDialogController {
+public class EditIncomeDialogController extends ItemDialogController<Income, IncomeCategory> {
 
     ListView<Income> incomeListView;
     Income income;
-
-    @FXML
-    private TextField amountTextField;
-
-    @FXML
-    private Button backButton;
-
-    @FXML
-    private ComboBox<IncomeCategory> categoryComboBox;
-
-    @FXML
-    private DatePicker dateOfRecievePicker;
-
-    @FXML
-    private Button editIncomeButton;
-
-    @FXML
-    private TextField titleTextField;
-
 
     @FXML
     void editIncome(ActionEvent event) {
@@ -42,12 +23,12 @@ public class EditIncomeDialogController extends BaseDialogController {
         boolean isValid = true;
 
         // Validate amount field
-        if (amountTextField.getText() == null || amountTextField.getText().isEmpty()) {
+        if (valueTextField.getText() == null || valueTextField.getText().isEmpty()) {
             System.out.println("Amount field is empty. Please enter a valid number.");
             isValid = false;
         } else {
             try {
-                amount = Double.parseDouble(amountTextField.getText());
+                amount = Double.parseDouble(valueTextField.getText());
                 if (amount < 0) {
                     System.out.println("Amount cannot be negative. Please enter a positive number.");
                     isValid = false;
@@ -60,11 +41,11 @@ public class EditIncomeDialogController extends BaseDialogController {
 
         // Validate date field
         LocalDate selectedDate = null;
-        if (dateOfRecievePicker.getValue() == null) {
+        if (datePicker.getValue() == null) {
             System.out.println("No date selected. Please select a valid date.");
             isValid = false;
         } else {
-            selectedDate = dateOfRecievePicker.getValue();
+            selectedDate = datePicker.getValue();
         }
 
         // Validate category
@@ -78,8 +59,8 @@ public class EditIncomeDialogController extends BaseDialogController {
 
         if (isValid) {
             income.setTitle(titleTextField.getText());
-            income.setAmount(Double.parseDouble(amountTextField.getText()));
-            income.setDate(dateOfRecievePicker.getValue());
+            income.setAmount(Double.parseDouble(valueTextField.getText()));
+            income.setDate(datePicker.getValue());
             income.changeCategory(income.getIncomeCategory(), categoryComboBox.getValue());
 
             // Add new receipt to the ListView in the main window
@@ -94,23 +75,19 @@ public class EditIncomeDialogController extends BaseDialogController {
             alert.showAndWait();
 
             // Close the dialog
-            Stage stage = (Stage) editIncomeButton.getScene().getWindow();
+            Stage stage = (Stage) actionButton.getScene().getWindow();
             stage.close();
         }
     }
 
     public void initialize() {
         populateComboBox();
-        CategoryManager categoryManager = CategoryManager.getInstance();
     }
 
     private void populateComboBox() {
         List<IncomeCategory> categories = CategoryManager.getInstance().getIncomeCategories();
-
-        // Add categories to the ComboBox
-        categoryComboBox.getItems().setAll(categories);
+        populateComboBox(categories);
     }
-
     // Setter for the ListView reference
     public void setIncomeListView(ListView<Income> incomeListView) {
         this.incomeListView = incomeListView;
@@ -120,16 +97,16 @@ public class EditIncomeDialogController extends BaseDialogController {
         this.income = income;
 
         titleTextField.setText(income.getTitle());
-        amountTextField.setText(String.valueOf(income.getAmount()));
-        dateOfRecievePicker.setValue(income.getDate());
+        valueTextField.setText(String.valueOf(income.getAmount()));
+        datePicker.setValue(income.getDate());
         categoryComboBox.setValue(income.getIncomeCategory());
     }
 
     public Income getUpdatedIncome() {
         // Update the income object with the new values
         income.setTitle(titleTextField.getText());
-        income.setAmount(Double.parseDouble(amountTextField.getText()));
-        income.setDate(dateOfRecievePicker.getValue());
+        income.setAmount(Double.parseDouble(valueTextField.getText()));
+        income.setDate(datePicker.getValue());
         return income;
     }
 }

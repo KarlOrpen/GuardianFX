@@ -9,26 +9,9 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.util.List;
 
-public class IncomeDialogController extends BaseDialogController {
+public class IncomeDialogController extends ItemDialogController<Income, IncomeCategory> {
 
     private ListView<Income> incomeListView;
-    @FXML
-    private Button addIncomeButton;
-
-    @FXML
-    private TextField amountTextField;
-
-    @FXML
-    private Button backButton;
-
-    @FXML
-    private ComboBox<IncomeCategory> categoryComboBox;
-
-    @FXML
-    private DatePicker dateOfRecievePicker;
-
-    @FXML
-    private TextField titleTextField;
 
     @FXML
     void addIncome(ActionEvent event) {
@@ -37,12 +20,12 @@ public class IncomeDialogController extends BaseDialogController {
         boolean isValid = true;
 
         // Validate amount field
-        if (amountTextField.getText() == null || amountTextField.getText().isEmpty()) {
+        if (valueTextField.getText() == null || valueTextField.getText().isEmpty()) {
             System.out.println("Amount field is empty. Please enter a valid number.");
             isValid = false;
         } else {
             try {
-                amount = Double.parseDouble(amountTextField.getText());
+                amount = Double.parseDouble(valueTextField.getText());
                 if (amount < 0) {
                     System.out.println("Amount cannot be negative. Please enter a positive number.");
                     isValid = false;
@@ -55,11 +38,11 @@ public class IncomeDialogController extends BaseDialogController {
 
         // Validate date field
         LocalDate selectedDate = null;
-        if (dateOfRecievePicker.getValue() == null) {
+        if (datePicker.getValue() == null) {
             System.out.println("No date selected. Please select a valid date.");
             isValid = false;
         } else {
-            selectedDate = dateOfRecievePicker.getValue();
+            selectedDate = datePicker.getValue();
         }
 
         // Validate category
@@ -86,26 +69,18 @@ public class IncomeDialogController extends BaseDialogController {
             alert.showAndWait();
 
             // Close the dialog
-            Stage stage = (Stage) addIncomeButton.getScene().getWindow();
+            Stage stage = (Stage) actionButton.getScene().getWindow();
             stage.close();
         }
     }
     public void initialize() {
-        dateOfRecievePicker.setValue(LocalDate.now());
+        datePicker.setValue(LocalDate.now());
         populateComboBox();
-        CategoryManager categoryManager = CategoryManager.getInstance();
     }
 
     private void populateComboBox() {
         List<IncomeCategory> categories = CategoryManager.getInstance().getIncomeCategories();
-
-        // Add categories to the ComboBox
-        categoryComboBox.getItems().setAll(categories);
-
-        // Optionally, set the default selection (if needed)
-        if (!categories.isEmpty()) {
-            categoryComboBox.setValue(categories.get(0)); // Select the first category by default
-        }
+        populateComboBox(categories);
     }
 
     // Setter for the ListView reference

@@ -15,20 +15,10 @@ import java.util.List;
 
 public class RecCatDialogController extends BaseDialogController {
 
-    CategoryManager categoryManager = CategoryManager.getInstance();
     ListView<PurchaseCategory> purchaseCategoryListView;
 
     @FXML
-    private Button addReceiptButton;
-
-    @FXML
-    private Button backButton;
-
-    @FXML
     private TextField descriptionTextField;
-
-    @FXML
-    private TextField titleTextField;
 
     @FXML
     void addReceiptCategory(ActionEvent event) {
@@ -51,7 +41,7 @@ public class RecCatDialogController extends BaseDialogController {
             alert.showAndWait();
 
             // Close the dialog
-            Stage stage = (Stage) addReceiptButton.getScene().getWindow();
+            Stage stage = (Stage) actionButton.getScene().getWindow();
             stage.close();
         }
     }

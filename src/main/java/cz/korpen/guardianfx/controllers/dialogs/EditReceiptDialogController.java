@@ -9,31 +9,13 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.util.List;
 
-public class EditReceiptDialogController extends BaseDialogController {
+public class EditReceiptDialogController extends ItemDialogController<Receipt, PurchaseCategory> {
 
     ListView<Receipt> receiptListView;
     Receipt receipt;
-    @FXML
-    private Button backButton;
-
-    @FXML
-    private ComboBox<PurchaseCategory> categoryComboBox;
-
-    @FXML
-    private TextField costTextField;
-
-    @FXML
-    private DatePicker dateOfPurchasePicker;
-
-    @FXML
-    private Button editReceiptButton;
 
     @FXML
     private Button selectImageButton;
-
-    @FXML
-    private TextField titleTextField;
-
 
     @FXML
     void pickFilePath(ActionEvent event) {
@@ -47,12 +29,12 @@ public class EditReceiptDialogController extends BaseDialogController {
         boolean isValid = true;
 
         // Validate cost field
-        if (costTextField.getText() == null || costTextField.getText().isEmpty()) {
+        if (valueTextField.getText() == null || valueTextField.getText().isEmpty()) {
             System.out.println("Cost field is empty. Please enter a valid number.");
             isValid = false;
         } else {
             try {
-                cost = Double.parseDouble(costTextField.getText());
+                cost = Double.parseDouble(valueTextField.getText());
                 if (cost < 0) {
                     System.out.println("Cost cannot be negative. Please enter a positive number.");
                     isValid = false;
@@ -65,11 +47,11 @@ public class EditReceiptDialogController extends BaseDialogController {
 
         // Validate date field
         LocalDate selectedDate = null;
-        if (dateOfPurchasePicker.getValue() == null) {
+        if (datePicker.getValue() == null) {
             System.out.println("No date selected. Please select a valid date.");
             isValid = false;
         } else {
-            selectedDate = dateOfPurchasePicker.getValue();
+            selectedDate = datePicker.getValue();
         }
 
         // Validate category
@@ -83,8 +65,8 @@ public class EditReceiptDialogController extends BaseDialogController {
 
         if (isValid) {
             receipt.setTitle(titleTextField.getText());
-            receipt.setCost(Double.parseDouble(costTextField.getText()));
-            receipt.setDateOfPurchase(dateOfPurchasePicker.getValue());
+            receipt.setCost(Double.parseDouble(valueTextField.getText()));
+            receipt.setDateOfPurchase(datePicker.getValue());
             receipt.changeCategory(receipt.getPurchaseCategory(), categoryComboBox.getValue());
 
             // Add new receipt to the ListView in the main window
@@ -99,21 +81,18 @@ public class EditReceiptDialogController extends BaseDialogController {
             alert.showAndWait();
 
             // Close the dialog
-            Stage stage = (Stage) editReceiptButton.getScene().getWindow();
+            Stage stage = (Stage) actionButton.getScene().getWindow();
             stage.close();
         }
     }
 
     public void initialize() {
         populateComboBox();
-        CategoryManager categoryManager = CategoryManager.getInstance();
     }
 
     private void populateComboBox() {
         List<PurchaseCategory> categories = CategoryManager.getInstance().getPurchaseCategories();
-
-        // Add categories to the ComboBox
-        categoryComboBox.getItems().setAll(categories);
+        populateComboBox(categories);
     }
 
     // Setter for the ListView reference
@@ -125,16 +104,16 @@ public class EditReceiptDialogController extends BaseDialogController {
         this.receipt = receipt;
 
         titleTextField.setText(receipt.getTitle());
-        costTextField.setText(String.valueOf(receipt.getCost()));
-        dateOfPurchasePicker.setValue(receipt.getDateOfPurchase());
+        valueTextField.setText(String.valueOf(receipt.getCost()));
+        datePicker.setValue(receipt.getDateOfPurchase());
         categoryComboBox.setValue(receipt.getPurchaseCategory());
     }
 
     public Receipt getUpdatedReceipt() {
         // Update the income object with the new values
         receipt.setTitle(titleTextField.getText());
-        receipt.setCost(Double.parseDouble(costTextField.getText()));
-        receipt.setDateOfPurchase(dateOfPurchasePicker.getValue());
+        receipt.setCost(Double.parseDouble(valueTextField.getText()));
+        receipt.setDateOfPurchase(datePicker.getValue());
         return receipt;
     }
 

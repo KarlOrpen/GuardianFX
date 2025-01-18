@@ -31,25 +31,10 @@ public class ReceiptScreenController {
     private Button addReceiptButton;
 
     @FXML
-    private Button categoryButton;
-
-    @FXML
-    private Button homeButton;
-
-    @FXML
-    private Button receiptButton;
-
-    @FXML
     private Spinner<Integer> receiptYearSpinner;
 
     @FXML
     private ListView<Receipt> receiptListView;
-
-    @FXML
-    private Button reportButton;
-
-    @FXML
-    private Button incomeButton;
 
     public void initialize() {
         setUpSpinner();
