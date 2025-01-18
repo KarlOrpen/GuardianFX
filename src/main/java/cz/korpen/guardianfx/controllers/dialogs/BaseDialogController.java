@@ -4,13 +4,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.util.Optional;
 
-public abstract class BaseDialogController {
+public abstract class BaseDialogController<T, C> {
+
+    protected ListView<T> listView;
+    protected T entity;
+
+    protected TextField titleTextField;
 
     // Common method to show a confirmation dialog
     @FXML

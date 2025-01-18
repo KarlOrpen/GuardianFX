@@ -21,7 +21,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.util.List;
 
-public class IncCatScreenController extends BaseMenuController {
+public class IncCatScreenController {
 
     CategoryManager categoryManager = CategoryManager.getInstance();
     @FXML
@@ -48,7 +48,7 @@ public class IncCatScreenController extends BaseMenuController {
     @FXML
     private Button reportButton;
 
-    @Override
+    @FXML
     public void initialize() {
         updateCategoryList();
     }

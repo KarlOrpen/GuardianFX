@@ -11,7 +11,7 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HomeScreenController.class.getResource("/cz/korpen/guardianfx/home_screen.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HomeScreenController.class.getResource("/cz/korpen/guardianfx/menu.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 640, 400);
         stage.setTitle("EnGarde!");
         stage.setScene(scene);

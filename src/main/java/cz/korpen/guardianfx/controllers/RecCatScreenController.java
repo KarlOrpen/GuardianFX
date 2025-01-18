@@ -21,7 +21,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.util.List;
 
-public class RecCatScreenController extends BaseMenuController {
+public class RecCatScreenController {
 
     CategoryManager categoryManager = CategoryManager.getInstance();
 

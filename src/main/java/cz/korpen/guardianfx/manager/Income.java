@@ -48,6 +48,19 @@ public class Income {
         this.title = title;
     }
 
+    public void deleteIncome() {
+        incomeCategory.removeIncome(this);
+    }
+
+    public IncomeCategory getIncomeCategory() {
+        return incomeCategory;
+    }
+
+    public void changeCategory(IncomeCategory originalCategory, IncomeCategory newCategory) {
+        newCategory.addIncome(this);
+        originalCategory.removeIncome(this);
+    }
+
     @Override
     public String toString() {
         return "Položka: " + getId() + " " + getTitle() + " " + getAmount() + "KČ " + getDate();

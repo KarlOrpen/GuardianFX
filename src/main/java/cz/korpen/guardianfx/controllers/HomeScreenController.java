@@ -18,27 +18,13 @@ import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class HomeScreenController extends BaseMenuController {
+public class HomeScreenController {
 
     private CategoryManager categoryManager;
     private int selectedYear;
-    @FXML
-    private Button categoryButton;
-
-    @FXML
-    private Button homeButton;
 
     @FXML
     private TableView<Receipt> lastReceiptsTable;
-
-    @FXML
-    private Button receiptButton;
-
-    @FXML
-    private Button reportButton;
-
-    @FXML
-    private Button incomeButton;
 
     @FXML
     private BarChart<String, Number> reportChart;

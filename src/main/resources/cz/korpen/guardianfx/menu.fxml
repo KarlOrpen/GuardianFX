@@ -40,11 +40,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.korpen.guardianfx.controllers.ReportScreenController">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.korpen.guardianfx.controllers.MenuController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
-            <SplitPane dividerPositions="0.15115062761506276, 0.8556485355648538" prefHeight="400.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <SplitPane dividerPositions="0.15115062761506276, 0.8478033472803349" prefHeight="400.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="397.0" prefWidth="153.0">
                      <children>
@@ -62,17 +62,13 @@
                               <Button fx:id="homeButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="124.0" prefWidth="297.0" text="Home Screen" />
                               <Button fx:id="categoryButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="171.0" prefWidth="383.0" text="Receipt Category Management" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="2" />
                               <Button fx:id="receiptButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="188.0" prefWidth="217.0" text="Receipt Management" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1" />
-                              <Button fx:id="reportButton" disable="true" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="165.0" prefWidth="356.0" text="Report Screen" GridPane.rowIndex="3" />
+                              <Button fx:id="reportButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="165.0" prefWidth="356.0" text="Report Screen" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="397.0" prefWidth="261.0">
-                     <children>
-                        <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="407.3333333333333" prefWidth="442.6666666666667" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="397.0" prefWidth="490.0">
+                  <AnchorPane fx:id="centerArea" prefHeight="397.0" prefWidth="302.0" />
+                <AnchorPane fx:id="rightMenu" minHeight="0.0" minWidth="0.0" prefHeight="397.0" prefWidth="490.0">
                      <children>
                         <GridPane layoutX="-44.0" layoutY="84.0" prefHeight="397.3333333333333" prefWidth="112.66666666666667" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>
@@ -85,10 +81,10 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button disable="true" mnemonicParsing="false" prefHeight="236.0" prefWidth="315.0" text="Button" />
+                              <Button disable="true" mnemonicParsing="false" prefHeight="236.0" prefWidth="315.0" text="" />
                               <Button fx:id="incomeButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="147.0" prefWidth="205.0" text="Income Management" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1" />
                               <Button fx:id="incCategoryButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="310.0" prefWidth="310.0" text="Income Category Management" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="2" />
-                              <Button disable="true" mnemonicParsing="false" prefHeight="180.0" prefWidth="209.0" text="Button" GridPane.rowIndex="3" />
+                              <Button disable="true" mnemonicParsing="false" prefHeight="180.0" prefWidth="209.0" text="" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                      </children>

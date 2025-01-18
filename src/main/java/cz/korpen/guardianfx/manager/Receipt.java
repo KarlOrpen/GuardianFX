@@ -63,8 +63,14 @@ public class Receipt {
         return purchaseCategory;
     }
 
-    public void setPurchaseCategory(PurchaseCategory purchaseCategory) {
-        this.purchaseCategory = purchaseCategory;
+    public void deleteReceipt() {
+        purchaseCategory.removeReceipt(this);
+    }
+
+
+    public void changeCategory(PurchaseCategory originalCategory, PurchaseCategory newCategory) {
+        newCategory.addReceipt(this);
+        originalCategory.removeReceipt(this);
     }
 
     @Override
