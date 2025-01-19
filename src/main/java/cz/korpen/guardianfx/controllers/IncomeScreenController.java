@@ -1,5 +1,6 @@
 package cz.korpen.guardianfx.controllers;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import cz.korpen.guardianfx.controllers.dialogs.EditIncomeDialogController;
 import cz.korpen.guardianfx.controllers.dialogs.IncomeDialogController;
 import cz.korpen.guardianfx.manager.CategoryManager;
@@ -22,9 +23,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public class IncomeScreenController {
+public class IncomeScreenController extends BaseController {
 
-    CategoryManager categoryManager = CategoryManager.getInstance();
     int selectedYear = LocalDate.now().getYear();
     private Income selectedItem;
     private ContextMenu activeContextMenu; // Keeps track of the currently active context menu

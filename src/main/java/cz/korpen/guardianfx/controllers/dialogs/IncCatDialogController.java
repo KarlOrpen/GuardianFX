@@ -1,12 +1,9 @@
 package cz.korpen.guardianfx.controllers.dialogs;
 
-import cz.korpen.guardianfx.manager.CategoryManager;
 import cz.korpen.guardianfx.manager.IncomeCategory;
-import cz.korpen.guardianfx.manager.PurchaseCategory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -27,9 +24,9 @@ public class IncCatDialogController extends BaseDialogController {
             IncomeCategory incomeCategory = new IncomeCategory(title);
             categoryManager.addIncomeCategory(incomeCategory); // Show success message
 
-            // Add new receipt to the ListView in the main window
+            // Add new expense to the ListView in the main window
             if (incomeCategoryListView != null) {
-                incomeCategoryListView.getItems().add(incomeCategory); // Add the new receipt
+                incomeCategoryListView.getItems().add(incomeCategory); // Add the new expense
             }
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

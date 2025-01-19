@@ -1,8 +1,8 @@
 package cz.korpen.guardianfx.controllers.dialogs;
 
 import cz.korpen.guardianfx.manager.CategoryManager;
-import cz.korpen.guardianfx.manager.PurchaseCategory;
-import cz.korpen.guardianfx.manager.Receipt;
+import cz.korpen.guardianfx.manager.Expense;
+import cz.korpen.guardianfx.manager.ExpenseCategory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -11,9 +11,9 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.util.List;
 
-public class ReceiptDialogController extends ItemDialogController<Receipt, PurchaseCategory> {
+public class ReceiptDialogController extends ItemDialogController<Expense, ExpenseCategory> {
 
-    ListView<Receipt> receiptListView;
+    ListView<Expense> receiptListView;
 
     @FXML
     private Button selectImageButton;
@@ -51,25 +51,25 @@ public class ReceiptDialogController extends ItemDialogController<Receipt, Purch
         }
 
         // Validate category
-        PurchaseCategory purchaseCategory = null;
+        ExpenseCategory expenseCategory = null;
         if (categoryComboBox.getValue() == null) {
             System.out.println("No category selected. Please select a category.");
             isValid = false;
         } else {
-            purchaseCategory = categoryComboBox.getValue();
+            expenseCategory = categoryComboBox.getValue();
         }
 
         if (isValid) {
-            Receipt receipt = new Receipt(title, cost, selectedDate, purchaseCategory);
+            Expense expense = new Expense(title, cost, selectedDate, expenseCategory);
 
             if (receiptListView != null) {
-                receiptListView.getItems().add(receipt);
+                receiptListView.getItems().add(expense);
             }
             // Show success message
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success");
             alert.setHeaderText(null);
-            alert.setContentText("Receipt added successfully!");
+            alert.setContentText("Expense added successfully!");
             alert.showAndWait();
 
             // Close the dialog
@@ -88,11 +88,11 @@ public class ReceiptDialogController extends ItemDialogController<Receipt, Purch
     }
 
     private void populateComboBox() {
-        List<PurchaseCategory> categories = CategoryManager.getInstance().getPurchaseCategories();
+        List<ExpenseCategory> categories = CategoryManager.getInstance().getPurchaseCategories();
         populateComboBox(categories);
     }
 
-    public void setReceiptListView(ListView<Receipt> receiptListView) {
+    public void setReceiptListView(ListView<Expense> receiptListView) {
         this.receiptListView = receiptListView;
     }
 }

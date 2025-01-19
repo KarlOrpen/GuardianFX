@@ -11,12 +11,12 @@
    <children>
       <AnchorPane prefHeight="579.0" prefWidth="600.0">
          <children>
-            <TextField fx:id="titleTextField" layoutX="21.0" layoutY="23.0" prefHeight="25.0" prefWidth="325.0" promptText="Insert receipt title" />
-            <TextField fx:id="valueTextField" layoutX="202.0" layoutY="61.0" prefHeight="25.0" prefWidth="144.0" promptText="Insert cost of the receipt" />
+            <TextField fx:id="titleTextField" layoutX="21.0" layoutY="23.0" prefHeight="25.0" prefWidth="325.0" promptText="Insert expense title" />
+            <TextField fx:id="valueTextField" layoutX="202.0" layoutY="61.0" prefHeight="25.0" prefWidth="144.0" promptText="Insert cost of the expense" />
             <DatePicker fx:id="datePicker" layoutX="22.0" layoutY="98.0" prefHeight="25.0" prefWidth="325.0" promptText="Pick date of purchase" />
             <ComboBox fx:id="categoryComboBox" layoutX="22.0" layoutY="137.0" prefHeight="25.0" prefWidth="325.0" promptText="Select purchase category" />
             <Button fx:id="selectImageButton" layoutX="202.0" layoutY="174.0" mnemonicParsing="false" onAction="#pickFilePath" prefHeight="25.0" prefWidth="144.0" text="Select Image" />
-            <Button fx:id="actionButton" defaultButton="true" layoutX="22.0" layoutY="273.0" mnemonicParsing="false" onAction="#editReceipt" prefHeight="98.0" prefWidth="109.0" text="Edit receipt" />
+            <Button fx:id="actionButton" defaultButton="true" layoutX="22.0" layoutY="273.0" mnemonicParsing="false" onAction="#editReceipt" prefHeight="98.0" prefWidth="109.0" text="Edit expense" />
             <Button fx:id="backButton" cancelButton="true" layoutX="236.0" layoutY="322.0" mnemonicParsing="false" onAction="#closeDialog" prefHeight="44.0" prefWidth="109.0" text="Back" />
          </children>
       </AnchorPane>

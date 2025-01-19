@@ -6,50 +6,50 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-public class PurchaseCategory {
+public class ExpenseCategory {
     private static final AtomicInteger idCounter = new AtomicInteger(0); // Static AtomicInteger for generating unique IDs
     private int id;
     private String categoryName;
     private String description;
-    private List<Receipt> receipts;
+    private List<Expense> expenses;
 
-    public PurchaseCategory(String categoryName, String description) {
+    public ExpenseCategory(String categoryName, String description) {
         this.id = idCounter.incrementAndGet();
         this.categoryName = categoryName;
         this.description = description;
-        this.receipts = new ArrayList<>();
+        this.expenses = new ArrayList<>();
     }
 
-    // Sort receipts by date
-    public List<Receipt> sortCategoryByDate() {
-        return receipts.stream()
-                .sorted(Comparator.comparing(Receipt::getDateOfPurchase))
+    // Sort expenses by date
+    public List<Expense> sortCategoryByDate() {
+        return expenses.stream()
+                .sorted(Comparator.comparing(Expense::getDateOfPurchase))
                 .collect(Collectors.toList());
     }
 
     // Generate yearly report for this category
-    public List<Receipt> giveYearlyReport(int year) {
-        return receipts.stream()
+    public List<Expense> giveYearlyReport(int year) {
+        return expenses.stream()
                 .filter(receipt -> receipt.getDateOfPurchase().getYear() == year)
                 .collect(Collectors.toList());
     }
 
     // Calculate total cost for this category in a given year
     public double calculateTotalCost(int year) {
-        return receipts.stream()
+        return expenses.stream()
                 .filter(receipt -> receipt.getDateOfPurchase().getYear() == year)
-                .mapToDouble(Receipt::getCost)
+                .mapToDouble(Expense::getCost)
                 .sum();
     }
 
-    // Add a receipt to the category
-    public void addReceipt(Receipt receipt) {
-        receipts.add(receipt);
+    // Add a expense to the category
+    public void addReceipt(Expense expense) {
+        expenses.add(expense);
     }
 
-    // Remove a receipt from the category
-    public void removeReceipt(Receipt receipt) {
-        receipts.remove(receipt);
+    // Remove a expense from the category
+    public void removeReceipt(Expense expense) {
+        expenses.remove(expense);
     }
 
     // Getters and setters
@@ -77,8 +77,8 @@ public class PurchaseCategory {
         this.description = description;
     }
 
-    public List<Receipt> getReceipts() {
-        return new ArrayList<>(receipts); // Return an immutable copy
+    public List<Expense> getReceipts() {
+        return new ArrayList<>(expenses); // Return an immutable copy
     }
 
     @Override

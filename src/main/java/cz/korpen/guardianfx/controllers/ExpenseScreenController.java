@@ -2,8 +2,7 @@ package cz.korpen.guardianfx.controllers;
 
 import cz.korpen.guardianfx.controllers.dialogs.EditReceiptDialogController;
 import cz.korpen.guardianfx.controllers.dialogs.ReceiptDialogController;
-import cz.korpen.guardianfx.manager.CategoryManager;
-import cz.korpen.guardianfx.manager.Receipt;
+import cz.korpen.guardianfx.manager.Expense;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,10 +20,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public class ReceiptScreenController {
-    CategoryManager categoryManager = CategoryManager.getInstance();
+public class ExpenseScreenController extends BaseController {
     int selectedYear = LocalDate.now().getYear();
-    private Receipt selectedItem;
+    private Expense selectedItem;
     private ContextMenu activeContextMenu;
 
     @FXML
@@ -34,7 +32,7 @@ public class ReceiptScreenController {
     private Spinner<Integer> receiptYearSpinner;
 
     @FXML
-    private ListView<Receipt> receiptListView;
+    private ListView<Expense> receiptListView;
 
     public void initialize() {
         setUpSpinner();
@@ -43,11 +41,11 @@ public class ReceiptScreenController {
 
     // Method to update the receipt list based on the selected year
     private void updateReceiptList() {
-        List<Receipt> receipts = categoryManager.giveYearlyCostReport(selectedYear);
+        List<Expense> expenses = categoryManager.giveYearlyCostReport(selectedYear);
 
         // Set the items to the ListView
-        ObservableList<Receipt> receiptObservableList = FXCollections.observableArrayList(receipts);
-        receiptListView.setItems(receiptObservableList);
+        ObservableList<Expense> expenseObservableList = FXCollections.observableArrayList(expenses);
+        receiptListView.setItems(expenseObservableList);
     }
 
     public void setUpSpinner() {
@@ -82,7 +80,7 @@ public class ReceiptScreenController {
 
             // Create a new stage for the dialog
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Add Receipt");
+            dialogStage.setTitle("Add Expense");
             dialogStage.setScene(dialogScene);
 
 
@@ -137,7 +135,7 @@ public class ReceiptScreenController {
             });
         }
     }
-    private void handleEdit(Receipt receipt) {
+    private void handleEdit(Expense expense) {
         try {
             // Load the dialog FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/cz/korpen/guardianfx/edit_receipt_dialog.fxml"));
@@ -146,11 +144,11 @@ public class ReceiptScreenController {
 
             // Get the controller
             EditReceiptDialogController controller = loader.getController();
-            controller.setReceipt(receipt); // Pass the current receipt object to the dialog
+            controller.setReceipt(expense); // Pass the current expense object to the dialog
 
             // Create a dialog stage
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Receipt");
+            dialogStage.setTitle("Edit Expense");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initStyle(StageStyle.UNDECORATED); // Remove the title bar
 
@@ -160,8 +158,8 @@ public class ReceiptScreenController {
             // Show the dialog and wait for user input
             dialogStage.showAndWait();
 
-            // After dialog closes, get the updated receipt
-            receipt = controller.getUpdatedReceipt();
+            // After dialog closes, get the updated expense
+            expense = controller.getUpdatedReceipt();
 
             // Optionally, refresh the ListView to reflect changes
             receiptListView.refresh();
@@ -172,10 +170,10 @@ public class ReceiptScreenController {
     }
 
 
-    private void handleDelete(Receipt receipt) {
+    private void handleDelete(Expense expense) {
         boolean confirm = showConfirmationDialog("Delete item?", "Do you really want to delete this item?");
         if (confirm) {
-            receipt.deleteReceipt();
+            expense.deleteExpense();
             updateReceiptList();
         }
     }

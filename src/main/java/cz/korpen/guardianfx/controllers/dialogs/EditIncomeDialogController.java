@@ -63,9 +63,9 @@ public class EditIncomeDialogController extends ItemDialogController<Income, Inc
             income.setDate(datePicker.getValue());
             income.changeCategory(income.getIncomeCategory(), categoryComboBox.getValue());
 
-            // Add new receipt to the ListView in the main window
+            // Add new expense to the ListView in the main window
             if (incomeListView != null) {
-                incomeListView.getItems().add(income); // Add the new receipt
+                incomeListView.getItems().add(income); // Add the new expense
             }
             // Show success message
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

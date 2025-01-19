@@ -61,7 +61,7 @@
                            <children>
                               <Button fx:id="homeButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="124.0" prefWidth="297.0" text="Home Screen" />
                               <Button fx:id="categoryButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="171.0" prefWidth="383.0" text="Receipt Category Management" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="2" />
-                              <Button fx:id="receiptButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="188.0" prefWidth="217.0" text="Receipt Management" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1" />
+                              <Button fx:id="expenseButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="188.0" prefWidth="217.0" text="Receipt Management" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="1" />
                               <Button fx:id="reportButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="165.0" prefWidth="356.0" text="Report Screen" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>

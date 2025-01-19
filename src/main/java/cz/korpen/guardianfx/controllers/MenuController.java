@@ -65,8 +65,8 @@ import java.io.IOException;
         // Map button ID to FXML file
         String fxmlFile = switch (clickedButton.getId()) {
             case "homeButton" -> "/cz/korpen/guardianfx/home_pane.fxml";
-            case "receiptButton" -> "/cz/korpen/guardianfx/receipt_pane.fxml";
-            case "categoryButton" -> "/cz/korpen/guardianfx/rec_cat_pane.fxml";
+            case "expenseButton" -> "/cz/korpen/guardianfx/expense_pane.fxml";
+            case "categoryButton" -> "/cz/korpen/guardianfx/exp_cat_pane.fxml";
             case "reportButton" -> "/cz/korpen/guardianfx/report_pane.fxml";
             case "incomeButton" -> "/cz/korpen/guardianfx/income_pane.fxml";
             case "incCategoryButton" -> "/cz/korpen/guardianfx/inc_cat_pane.fxml";

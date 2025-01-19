@@ -41,6 +41,14 @@ public class IncomeCategory {
         incomeList.remove(income);
     }
 
+    // Calculate total cost for this category in a given year
+    public double calculateTotalIncome(int year) {
+        return incomeList.stream()
+                .filter(receipt -> receipt.getDate().getYear() == year)
+                .mapToDouble(Income::getAmount)
+                .sum();
+    }
+
     // Getters and setters
     public int getId() {
         return id;

@@ -11,6 +11,7 @@ module cz.korpen.guardianfx {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires org.apache.pdfbox;
+    requires com.fasterxml.jackson.databind;
 
     opens cz.korpen.guardianfx to javafx.fxml;
     exports cz.korpen.guardianfx;

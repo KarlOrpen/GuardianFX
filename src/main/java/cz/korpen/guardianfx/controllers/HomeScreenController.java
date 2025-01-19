@@ -1,8 +1,7 @@
 package cz.korpen.guardianfx.controllers;
 
-import cz.korpen.guardianfx.manager.CategoryManager;
-import cz.korpen.guardianfx.manager.PurchaseCategory;
-import cz.korpen.guardianfx.manager.Receipt;
+import cz.korpen.guardianfx.manager.Expense;
+import cz.korpen.guardianfx.manager.ExpenseCategory;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,13 +17,12 @@ import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class HomeScreenController {
+public class HomeScreenController extends BaseController {
 
-    private CategoryManager categoryManager;
     private int selectedYear;
 
     @FXML
-    private TableView<Receipt> lastReceiptsTable;
+    private TableView<Expense> lastReceiptsTable;
 
     @FXML
     private BarChart<String, Number> reportChart;
@@ -36,18 +34,17 @@ public class HomeScreenController {
     private Spinner<Integer> yearSpinner;
 
     @FXML
-    private TableColumn<Receipt, Integer> idColumn;
+    private TableColumn<Expense, Integer> idColumn;
     @FXML
-    private TableColumn<Receipt, String> titleColumn;
+    private TableColumn<Expense, String> titleColumn;
     @FXML
-    private TableColumn<Receipt, Double> costColumn;
+    private TableColumn<Expense, Double> costColumn;
     @FXML
-    private TableColumn<Receipt, String> dateColumn;
+    private TableColumn<Expense, String> dateColumn;
     @FXML
-    private TableColumn<Receipt, String> categoryColumn;
+    private TableColumn<Expense, String> categoryColumn;
 
     public void initialize() {
-        categoryManager = CategoryManager.getInstance();
         selectedYear = LocalDate.now().getYear();
         initializeSpinner();
         updateLabel();
@@ -59,16 +56,16 @@ public class HomeScreenController {
 
     public void addTestReceipts() {
         // Create sample categories and add them to the category manager
-        PurchaseCategory food = new PurchaseCategory("FOOD", "Food");
-        PurchaseCategory entertainment = new PurchaseCategory("ENTERTAINMENT", "Entertainment");
+        ExpenseCategory food = new ExpenseCategory("FOOD", "Food");
+        ExpenseCategory entertainment = new ExpenseCategory("ENTERTAINMENT", "Entertainment");
         categoryManager.addPurchaseCategory(food);
         categoryManager.addPurchaseCategory(entertainment);
 
         // Create sample receipts and add them to the categories
-        Receipt hamburger = new Receipt("Hamburger", 100.0, LocalDate.of(2025, 01, 01), food);
-        Receipt cola = new Receipt("Coca-cola", 50.0, LocalDate.of(2025, 01, 01), food);
-        Receipt movieTicket = new Receipt("Movie Ticket", 200.0, LocalDate.of(2025, 02, 10), entertainment);
-        Receipt concertTicket = new Receipt("Concert Ticket", 300.0, LocalDate.of(2025, 03, 15), entertainment);
+        Expense hamburger = new Expense("Hamburger", 100.0, LocalDate.of(2025, 01, 01), food);
+        Expense cola = new Expense("Coca-cola", 50.0, LocalDate.of(2025, 01, 01), food);
+        Expense movieTicket = new Expense("Movie Ticket", 200.0, LocalDate.of(2025, 02, 10), entertainment);
+        Expense concertTicket = new Expense("Concert Ticket", 300.0, LocalDate.of(2025, 03, 15), entertainment);
     }
 
     public void initializeSpinner() {
@@ -118,10 +115,10 @@ public class HomeScreenController {
 
     private void populateTable(int year) {
         // Fetch receipts for the selected year
-        List<Receipt> yearlyReceipts = categoryManager.giveYearlyCostReport(year);
+        List<Expense> yearlyExpenses = categoryManager.giveYearlyCostReport(year);
 
         // Update the table
-        ObservableList<Receipt> tableData = FXCollections.observableArrayList(yearlyReceipts);
+        ObservableList<Expense> tableData = FXCollections.observableArrayList(yearlyExpenses);
         lastReceiptsTable.setItems(tableData);
     }
 
@@ -135,7 +132,7 @@ public class HomeScreenController {
 
         // Null control for purchaseCategory
         categoryColumn.setCellValueFactory(cellData -> {
-            PurchaseCategory category = cellData.getValue().getPurchaseCategory();
+            ExpenseCategory category = cellData.getValue().getExpenseCategory();
             return new SimpleStringProperty(category != null ? category.getCategoryName() : "Unknown Category");
         });
 

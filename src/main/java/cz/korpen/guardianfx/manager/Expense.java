@@ -3,7 +3,7 @@ package cz.korpen.guardianfx.manager;
 import java.time.LocalDate;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Receipt {
+public class Expense {
     private static final AtomicInteger idCounter = new AtomicInteger(0); // Static AtomicInteger for generating unique IDs
 
     private final int id;
@@ -11,15 +11,15 @@ public class Receipt {
     private double cost;
     private LocalDate dateOfPurchase;
     private String imagePath;
-    private PurchaseCategory purchaseCategory;
+    private ExpenseCategory expenseCategory;
 
-    public Receipt(String title, double cost, LocalDate dateOfPurchase, PurchaseCategory purchaseCategory) {
+    public Expense(String title, double cost, LocalDate dateOfPurchase, ExpenseCategory expenseCategory) {
         this.id = idCounter.incrementAndGet();
         this.title = title;
         this.cost = cost;
         this.dateOfPurchase = dateOfPurchase;
-        this.purchaseCategory = purchaseCategory;
-        purchaseCategory.addReceipt(this);
+        this.expenseCategory = expenseCategory;
+        expenseCategory.addReceipt(this);
         this.imagePath = "";
     }
 
@@ -47,7 +47,7 @@ public class Receipt {
         return dateOfPurchase;
     }
 
-    public void setDateOfPurchase(LocalDate dateOfPurchase) {
+    public void setDate(LocalDate dateOfPurchase) {
         this.dateOfPurchase = dateOfPurchase;
     }
 
@@ -59,19 +59,19 @@ public class Receipt {
         this.imagePath = imagePath;
     }
 
-    public PurchaseCategory getPurchaseCategory() {
-        return purchaseCategory;
+    public ExpenseCategory getExpenseCategory() {
+        return expenseCategory;
     }
 
-    public void deleteReceipt() {
-        purchaseCategory.removeReceipt(this);
+    public void deleteExpense() {
+        expenseCategory.removeReceipt(this);
     }
 
 
-    public void changeCategory(PurchaseCategory originalCategory, PurchaseCategory newCategory) {
+    public void changeCategory(ExpenseCategory originalCategory, ExpenseCategory newCategory) {
         newCategory.addReceipt(this);
         originalCategory.removeReceipt(this);
-        this.purchaseCategory = newCategory;
+        this.expenseCategory = newCategory;
     }
 
     @Override

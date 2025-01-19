@@ -1,10 +1,7 @@
 package cz.korpen.guardianfx.controllers;
 
-import cz.korpen.guardianfx.controllers.dialogs.IncomeDialogController;
 import cz.korpen.guardianfx.controllers.dialogs.RecCatDialogController;
-import cz.korpen.guardianfx.manager.CategoryManager;
-import cz.korpen.guardianfx.manager.Income;
-import cz.korpen.guardianfx.manager.PurchaseCategory;
+import cz.korpen.guardianfx.manager.ExpenseCategory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,9 +18,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.util.List;
 
-public class RecCatScreenController {
-
-    CategoryManager categoryManager = CategoryManager.getInstance();
+public class ExpenseCategoryScreenController extends BaseController {
 
     @FXML
     private Button addReceiptCategoryButton;
@@ -44,7 +39,7 @@ public class RecCatScreenController {
     private Button receiptButton;
 
     @FXML
-    private ListView<PurchaseCategory> receiptCategoryListView;
+    private ListView<ExpenseCategory> receiptCategoryListView;
 
     @FXML
     private Button reportButton;
@@ -87,10 +82,10 @@ public class RecCatScreenController {
         }
     }
     private void updateCategoryList() {
-        List<PurchaseCategory> categories = categoryManager.getPurchaseCategories();
+        List<ExpenseCategory> categories = categoryManager.getPurchaseCategories();
 
         // Set the items to the ListView
-        ObservableList<PurchaseCategory> purchaseCategoriesObservableList = FXCollections.observableArrayList(categories);
+        ObservableList<ExpenseCategory> purchaseCategoriesObservableList = FXCollections.observableArrayList(categories);
         receiptCategoryListView.setItems(purchaseCategoriesObservableList);
     }
 }

@@ -9,10 +9,10 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.util.List;
 
-public class EditReceiptDialogController extends ItemDialogController<Receipt, PurchaseCategory> {
+public class EditReceiptDialogController extends ItemDialogController<Expense, ExpenseCategory> {
 
-    ListView<Receipt> receiptListView;
-    Receipt receipt;
+    ListView<Expense> receiptListView;
+    Expense expense;
 
     @FXML
     private Button selectImageButton;
@@ -55,29 +55,29 @@ public class EditReceiptDialogController extends ItemDialogController<Receipt, P
         }
 
         // Validate category
-        PurchaseCategory purchaseCategory = null;
+        ExpenseCategory expenseCategory = null;
         if (categoryComboBox.getValue() == null) {
             System.out.println("No category selected. Please select a category.");
             isValid = false;
         } else {
-            purchaseCategory = categoryComboBox.getValue();
+            expenseCategory = categoryComboBox.getValue();
         }
 
         if (isValid) {
-            receipt.setTitle(titleTextField.getText());
-            receipt.setCost(Double.parseDouble(valueTextField.getText()));
-            receipt.setDateOfPurchase(datePicker.getValue());
-            receipt.changeCategory(receipt.getPurchaseCategory(), categoryComboBox.getValue());
+            expense.setTitle(titleTextField.getText());
+            expense.setCost(Double.parseDouble(valueTextField.getText()));
+            expense.setDate(datePicker.getValue());
+            expense.changeCategory(expense.getExpenseCategory(), categoryComboBox.getValue());
 
-            // Add new receipt to the ListView in the main window
+            // Add new expense to the ListView in the main window
             if (receiptListView != null) {
-                receiptListView.getItems().add(receipt); // Add the new receipt
+                receiptListView.getItems().add(expense); // Add the new expense
             }
             // Show success message
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success");
             alert.setHeaderText(null);
-            alert.setContentText("Receipt added successfully!");
+            alert.setContentText("Expense added successfully!");
             alert.showAndWait();
 
             // Close the dialog
@@ -91,30 +91,30 @@ public class EditReceiptDialogController extends ItemDialogController<Receipt, P
     }
 
     private void populateComboBox() {
-        List<PurchaseCategory> categories = CategoryManager.getInstance().getPurchaseCategories();
+        List<ExpenseCategory> categories = CategoryManager.getInstance().getPurchaseCategories();
         populateComboBox(categories);
     }
 
     // Setter for the ListView reference
-    public void setPurchaseListView(ListView<Receipt> receiptListView) {
+    public void setPurchaseListView(ListView<Expense> receiptListView) {
         this.receiptListView = receiptListView;
     }
 
-    public void setReceipt(Receipt receipt) {
-        this.receipt = receipt;
+    public void setReceipt(Expense expense) {
+        this.expense = expense;
 
-        titleTextField.setText(receipt.getTitle());
-        valueTextField.setText(String.valueOf(receipt.getCost()));
-        datePicker.setValue(receipt.getDateOfPurchase());
-        categoryComboBox.setValue(receipt.getPurchaseCategory());
+        titleTextField.setText(expense.getTitle());
+        valueTextField.setText(String.valueOf(expense.getCost()));
+        datePicker.setValue(expense.getDateOfPurchase());
+        categoryComboBox.setValue(expense.getExpenseCategory());
     }
 
-    public Receipt getUpdatedReceipt() {
+    public Expense getUpdatedReceipt() {
         // Update the income object with the new values
-        receipt.setTitle(titleTextField.getText());
-        receipt.setCost(Double.parseDouble(valueTextField.getText()));
-        receipt.setDateOfPurchase(datePicker.getValue());
-        return receipt;
+        expense.setTitle(titleTextField.getText());
+        expense.setCost(Double.parseDouble(valueTextField.getText()));
+        expense.setDate(datePicker.getValue());
+        return expense;
     }
 
 }

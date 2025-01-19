@@ -1,10 +1,7 @@
 package cz.korpen.guardianfx.controllers;
 
 import cz.korpen.guardianfx.controllers.dialogs.IncCatDialogController;
-import cz.korpen.guardianfx.controllers.dialogs.RecCatDialogController;
-import cz.korpen.guardianfx.manager.CategoryManager;
 import cz.korpen.guardianfx.manager.IncomeCategory;
-import cz.korpen.guardianfx.manager.PurchaseCategory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,9 +18,8 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.util.List;
 
-public class IncCatScreenController {
+public class IncCatScreenController extends BaseController{
 
-    CategoryManager categoryManager = CategoryManager.getInstance();
     @FXML
     private Button addIncomeCategoryButton;
 

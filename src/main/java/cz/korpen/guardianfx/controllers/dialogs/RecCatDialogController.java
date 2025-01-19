@@ -1,21 +1,16 @@
 package cz.korpen.guardianfx.controllers.dialogs;
 
-import cz.korpen.guardianfx.manager.CategoryManager;
-import cz.korpen.guardianfx.manager.Income;
-import cz.korpen.guardianfx.manager.PurchaseCategory;
+import cz.korpen.guardianfx.manager.ExpenseCategory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.util.List;
-
 public class RecCatDialogController extends BaseDialogController {
 
-    ListView<PurchaseCategory> purchaseCategoryListView;
+    ListView<ExpenseCategory> purchaseCategoryListView;
 
     @FXML
     private TextField descriptionTextField;
@@ -26,12 +21,12 @@ public class RecCatDialogController extends BaseDialogController {
             System.out.println("Title cannot be empty.");
         } else {
             String title = titleTextField.getText();
-            PurchaseCategory purchaseCategory = new PurchaseCategory(title, descriptionTextField.getText());
-            categoryManager.addPurchaseCategory(purchaseCategory); // Show success message
+            ExpenseCategory expenseCategory = new ExpenseCategory(title, descriptionTextField.getText());
+            categoryManager.addPurchaseCategory(expenseCategory); // Show success message
 
-            // Add new receipt to the ListView in the main window
+            // Add new expense to the ListView in the main window
             if (purchaseCategoryListView != null) {
-                purchaseCategoryListView.getItems().add(purchaseCategory); // Add the new receipt
+                purchaseCategoryListView.getItems().add(expenseCategory); // Add the new expense
             }
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -46,7 +41,7 @@ public class RecCatDialogController extends BaseDialogController {
         }
     }
     // Setter for the ListView reference
-    public void setPurchaseCategoryListView(ListView<PurchaseCategory> purchaseCategoryListView) {
+    public void setPurchaseCategoryListView(ListView<ExpenseCategory> purchaseCategoryListView) {
         this.purchaseCategoryListView = purchaseCategoryListView;
     }
 }
