@@ -51,10 +51,10 @@
             <RowConstraints maxHeight="369.99999618530273" minHeight="10.0" prefHeight="351.99999237060547" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <ListView fx:id="receiptCategoryListView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+            <ListView fx:id="expenseCategoryListView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="addReceiptCategoryButton" mnemonicParsing="false" onAction="#handleAddReceiptCategory" prefHeight="45.0" prefWidth="443.0" text="Add expense category" />
+                  <Button fx:id="addExpenseCategoryButton" mnemonicParsing="false" onAction="#handleAddExpenseCategory" prefHeight="45.0" prefWidth="443.0" text="%addExpenseCategoryButton" />
                </children>
             </HBox>
          </children>

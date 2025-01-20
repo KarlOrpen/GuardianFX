@@ -1,5 +1,6 @@
 package cz.korpen.guardianfx.controllers;
 
+import cz.korpen.guardianfx.FXMLHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,8 +10,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
-    public class MenuController {
+public class MenuController {
+    ResourceBundle resources = ResourceBundle.getBundle("cz.korpen.guardianfx.messages");
+
     private Button clickedButton;
 
     @FXML
@@ -32,7 +36,7 @@ import java.io.IOException;
     private Button incomeButton;
 
     @FXML
-    private Button receiptButton;
+    private Button expenseButton;
 
     @FXML
     private Button reportButton;
@@ -43,19 +47,8 @@ import java.io.IOException;
     // Method to initialize the default screen
     @FXML
     public void initialize() {
-        loadFXML("/cz/korpen/guardianfx/home_pane.fxml"); // Load default content (Home screen)
-    }
-
-    // Method to load different FXML files into the center area
-    private void loadFXML(String fxmlFileName) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFileName));
-            Node content = loader.load(); // Load the FXML file
-            centerArea.getChildren().clear(); // Clear previous content
-            centerArea.getChildren().add(content); // Add new content
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FXMLHelper.loadScreen("/cz/korpen/guardianfx/home_pane.fxml", resources, centerArea);
+        disableCurrentButton("/cz/korpen/guardianfx/home_pane.fxml");
     }
 
     @FXML
@@ -74,8 +67,43 @@ import java.io.IOException;
         };
 
         if (fxmlFile != null) {
-            loadFXML(fxmlFile);
+            FXMLHelper.loadScreen(fxmlFile, resources, centerArea);
         }
+        resetButtonState();
+        disableCurrentButton(fxmlFile);
+    }
+    private void disableCurrentButton(String fxmlFile) {
+        // Disable the button corresponding to the loaded screen
+        switch (fxmlFile) {
+            case "/cz/korpen/guardianfx/home_pane.fxml":
+                homeButton.setDisable(true);
+                break;
+            case "/cz/korpen/guardianfx/expense_pane.fxml":
+                expenseButton.setDisable(true);
+                break;
+            case "/cz/korpen/guardianfx/exp_cat_pane.fxml":
+                categoryButton.setDisable(true);
+                break;
+            case "/cz/korpen/guardianfx/report_pane.fxml":
+                reportButton.setDisable(true);
+                break;
+            case "/cz/korpen/guardianfx/income_pane.fxml":
+                incomeButton.setDisable(true);
+                break;
+            case "/cz/korpen/guardianfx/inc_cat_pane.fxml":
+                incCategoryButton.setDisable(true);
+                break;
+        }
+    }
+
+    public void resetButtonState() {
+        // Re-enable all buttons when needed, like after screen transition
+        homeButton.setDisable(false);
+        expenseButton.setDisable(false);
+        categoryButton.setDisable(false);
+        reportButton.setDisable(false);
+        incomeButton.setDisable(false);
+        incCategoryButton.setDisable(false);
     }
 
 }

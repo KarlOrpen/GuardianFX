@@ -46,11 +46,11 @@
             <RowConstraints maxHeight="369.99999618530273" minHeight="10.0" prefHeight="351.99999237060547" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <ListView fx:id="receiptListView" onContextMenuRequested="#editDelete" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+            <ListView fx:id="expenseListView" onContextMenuRequested="#editDelete" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="addReceiptButton" mnemonicParsing="false" onAction="#handleAddReceipt" prefHeight="45.0" prefWidth="235.0" text="Add expense" />
-                  <Spinner fx:id="receiptYearSpinner" prefHeight="45.0" prefWidth="203.0" />
+                  <Button fx:id="addExpenseButton" mnemonicParsing="false" onAction="#handleAddExpense" prefHeight="45.0" prefWidth="235.0" text="%addExpenseButton" />
+                  <Spinner fx:id="yearSpinner" prefHeight="45.0" prefWidth="203.0" />
                </children>
             </HBox>
          </children>

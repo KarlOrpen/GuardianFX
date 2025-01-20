@@ -11,15 +11,15 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.util.List;
 
-public class ReceiptDialogController extends ItemDialogController<Expense, ExpenseCategory> {
+public class ExpenseDialogController extends ItemDialogController<Expense, ExpenseCategory> {
 
-    ListView<Expense> receiptListView;
+    ListView<Expense> expenseListView;
 
     @FXML
     private Button selectImageButton;
 
     @FXML
-    void addReceipt(ActionEvent event) {
+    void addExpense(ActionEvent event) {
         String title = titleTextField.getText();
         double cost = 0;
         boolean isValid = true;
@@ -62,8 +62,8 @@ public class ReceiptDialogController extends ItemDialogController<Expense, Expen
         if (isValid) {
             Expense expense = new Expense(title, cost, selectedDate, expenseCategory);
 
-            if (receiptListView != null) {
-                receiptListView.getItems().add(expense);
+            if (expenseListView != null) {
+                expenseListView.getItems().add(expense);
             }
             // Show success message
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -88,12 +88,12 @@ public class ReceiptDialogController extends ItemDialogController<Expense, Expen
     }
 
     private void populateComboBox() {
-        List<ExpenseCategory> categories = CategoryManager.getInstance().getPurchaseCategories();
+        List<ExpenseCategory> categories = CategoryManager.getInstance().getExpenseCategories();
         populateComboBox(categories);
     }
 
-    public void setReceiptListView(ListView<Expense> receiptListView) {
-        this.receiptListView = receiptListView;
+    public void setExpenseListView(ListView<Expense> expenseListView) {
+        this.expenseListView = expenseListView;
     }
 }
 

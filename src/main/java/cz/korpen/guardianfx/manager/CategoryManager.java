@@ -1,31 +1,29 @@
 package cz.korpen.guardianfx.manager;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CategoryManager {
-    private List<ExpenseCategory> purchaseCategories;
-    private List<IncomeCategory> incomeCategories;
+    private final List<ExpenseCategory> expenseCategories;
+    private final List<IncomeCategory> incomeCategories;
 
     // Private constructor to prevent instantiation
     private CategoryManager() {
-        this.purchaseCategories = new ArrayList<>();
+        this.expenseCategories = new ArrayList<>();
         this.incomeCategories = new ArrayList<>();
         IncomeCategory salary = new IncomeCategory("Salary");
         ExpenseCategory food = new ExpenseCategory("FOOD", "Food");
         ExpenseCategory entertainment = new ExpenseCategory("ENTERTAINMENT", "Entertainment");
-        addPurchaseCategory(food);
-        addPurchaseCategory(entertainment);
+        addExpenseCategory(food);
+        addExpenseCategory(entertainment);
         addIncomeCategory(salary);
 
     }
 
     // Inner static class responsible for holding the singleton instance
     private static class SingletonHelper {
-        // This will be loaded when it is referenced (lazy initialization)
         private static final CategoryManager INSTANCE = new CategoryManager();
     }
 
@@ -35,8 +33,8 @@ public class CategoryManager {
     }
 
     // Add a new category
-    public void addPurchaseCategory(ExpenseCategory expenseCategory) {
-        purchaseCategories.add(expenseCategory);
+    public void addExpenseCategory(ExpenseCategory expenseCategory) {
+        expenseCategories.add(expenseCategory);
     }
 
     public void addIncomeCategory(IncomeCategory incomeCategory) {
@@ -44,39 +42,39 @@ public class CategoryManager {
     }
 
     // Remove a category
-    public void removePurchaseCategory(ExpenseCategory expenseCategory) {
-        purchaseCategories.remove(expenseCategory);
+    public void removeExpenseCategory(ExpenseCategory expenseCategory) {
+        expenseCategories.remove(expenseCategory);
     }
 
     public void removeIncomeCategory(IncomeCategory incomeCategory) {
-        purchaseCategories.remove(incomeCategory);
+        incomeCategories.remove(incomeCategory);
     }
 
 
     // Get all purchaseCategories
-    public List<ExpenseCategory> getPurchaseCategories() {
-        return new ArrayList<>(purchaseCategories); // Return an immutable copy
+    public List<ExpenseCategory> getExpenseCategories() {
+        return new ArrayList<>(expenseCategories); // Return an immutable copy
     }
 
     public List<IncomeCategory> getIncomeCategories() {
         return new ArrayList<>(incomeCategories); // Return an immutable copy
     }
 
-    // Generate yearly report for all purchaseCategories
-    public Map<ExpenseCategory, List<Expense>> generateYearlyReportsByCategory(int year) {
-        return purchaseCategories.stream()
-                .flatMap(category -> category.giveYearlyReport(year).stream()
-                        .map(receipt -> Map.entry(category, receipt))) // Map each receipt to its category
-                .collect(Collectors.groupingBy(
-                        Map.Entry::getKey,                      // Group by category
-                        Collectors.mapping(Map.Entry::getValue, // Collect receipts per category
-                                Collectors.toList())
-                ));
+    public List<Expense> getExpensesOverFiveK() {
+        List<Expense> result = new ArrayList<>();
+        for (ExpenseCategory expenseCategory : expenseCategories) {
+            for (Expense expense : expenseCategory.getReceipts()) {
+                if (expense.getCost() >= 5000) {
+                    result.add(expense);
+                }
+            }
+        } return result;
     }
+
 
     // Calculate total costs per category for a given year
     public Map<String, Double> calculateTotalCostPerCategory(int year) {
-        return purchaseCategories.stream()
+        return expenseCategories.stream()
                 .collect(Collectors.toMap(
                         ExpenseCategory::getCategoryName,  // Use category name as the key
                         category -> category.calculateTotalCost(year) // Total cost as the value
@@ -92,24 +90,9 @@ public class CategoryManager {
                 ));
     }
 
-    // Calculate total costs across all purchaseCategories for a given year
-    public double calculateTotalCostAcrossCategories(int year) {
-        return purchaseCategories.stream()
-                .mapToDouble(category -> category.calculateTotalCost(year))
-                .sum();
-    }
-
-    // Get a sorted list of all receipts across purchaseCategories by date
-    public List<Expense> getAllReceiptsSortedByDate() {
-        return purchaseCategories.stream()
-                .flatMap(category -> category.getReceipts().stream()) // Combine all receipts
-                .sorted(Comparator.comparing(Expense::getDateOfPurchase)) // Sort by date
-                .collect(Collectors.toList());
-    }
-
     public double getTotalCostForYear(int year) {
         double totalCost = 0.0;
-        for (ExpenseCategory category : purchaseCategories) {
+        for (ExpenseCategory category : expenseCategories) {
             for (Expense expense : category.getReceipts()) {
                 if (expense.getDateOfPurchase().getYear() == year) {
                     totalCost += expense.getCost();  // Sum the cost of receipts in the selected year
@@ -132,7 +115,7 @@ public class CategoryManager {
     }
 
     public double getTotalCostForMonthYear(int month, int year) {
-        return purchaseCategories.stream()
+        return expenseCategories.stream()
                 .flatMap(category -> category.getReceipts().stream()) // Flatten all receipts
                 .filter(receipt -> receipt.getDateOfPurchase().getMonthValue() == month && receipt.getDateOfPurchase().getYear() == year) // Filter by month and year
                 .mapToDouble(Expense::getCost) // Extract the cost
@@ -148,7 +131,7 @@ public class CategoryManager {
     }
 
     public List<Expense> giveYearlyCostReport(int year) {
-        return purchaseCategories.stream()
+        return expenseCategories.stream()
                 .flatMap(category -> category.getReceipts().stream())
                 .filter(receipt -> receipt.getDateOfPurchase().getYear() == year)
                 .collect(Collectors.toList());

@@ -1,7 +1,8 @@
 package cz.korpen.guardianfx.controllers;
 
-import cz.korpen.guardianfx.controllers.dialogs.EditReceiptDialogController;
-import cz.korpen.guardianfx.controllers.dialogs.ReceiptDialogController;
+import cz.korpen.guardianfx.FXMLHelper;
+import cz.korpen.guardianfx.controllers.dialogs.EditExpenseDialogController;
+import cz.korpen.guardianfx.controllers.dialogs.ExpenseDialogController;
 import cz.korpen.guardianfx.manager.Expense;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,77 +27,55 @@ public class ExpenseScreenController extends BaseController {
     private ContextMenu activeContextMenu;
 
     @FXML
-    private Button addReceiptButton;
+    private Button addExpenseButton;
 
     @FXML
-    private Spinner<Integer> receiptYearSpinner;
+    private Spinner<Integer> yearSpinner;
 
     @FXML
-    private ListView<Expense> receiptListView;
+    private ListView<Expense> expenseListView;
 
     public void initialize() {
         setUpSpinner();
-        updateReceiptList(); // Initially populate the list with receipts
+        updateExpenseList(); // Initially populate the list with expenses
     }
 
-    // Method to update the receipt list based on the selected year
-    private void updateReceiptList() {
+    // Method to update the expense list based on the selected year
+    private void updateExpenseList() {
         List<Expense> expenses = categoryManager.giveYearlyCostReport(selectedYear);
 
         // Set the items to the ListView
         ObservableList<Expense> expenseObservableList = FXCollections.observableArrayList(expenses);
-        receiptListView.setItems(expenseObservableList);
+        expenseListView.setItems(expenseObservableList);
     }
 
     public void setUpSpinner() {
         // Initialize the spinner to select years
-        receiptYearSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
+        yearSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
                 LocalDate.now().minusYears(25).getYear(), // Min year
                 LocalDate.now().plusYears(2).getYear(),  // Max year
                 LocalDate.now().getYear() // Default value
         ));
 
         // Listen for changes to the selected year in the spinner
-        receiptYearSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+        yearSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
             selectedYear = newValue; // Set the selected year
-            updateReceiptList(); // Update the receipt list when the year changes
+            updateExpenseList(); // Update the expense list when the year changes
         });
     }
 
     @FXML
-    private void handleAddReceipt() {
-        try {
-            // Load the receipt dialog FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cz/korpen/guardianfx/receipt_dialog.fxml"));
+    private void handleAddExpense() {
+        ExpenseDialogController dialogController = FXMLHelper.showDialog(
+                "/cz/korpen/guardianfx/expense_dialog.fxml",
+                resources,
+                resources.getString("expenseDialogTitle")
+        );
 
-            // Create the dialog's root node
-            Parent root = loader.load();
-
-            // Get the controller of the dialog (optional)
-            ReceiptDialogController dialogController = loader.getController();
-            dialogController.setReceiptListView(receiptListView);
-            // Create a new scene for the dialog
-            Scene dialogScene = new Scene(root);
-
-            // Create a new stage for the dialog
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Add Expense");
-            dialogStage.setScene(dialogScene);
-
-
-            // Disable interaction with the main window while the dialog is open
-            dialogStage.initModality(Modality.APPLICATION_MODAL);
-            dialogStage.initStyle(StageStyle.UNDECORATED); // Remove the title bar
-
-            // Show the dialog
-            dialogStage.showAndWait();
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle potential errors like FXML loading issues
+        if (dialogController != null) {
+            dialogController.setExpenseListView(expenseListView);
         }
+        updateExpenseList();
     }
     @FXML
     public void editDelete(ContextMenuEvent event) {
@@ -104,7 +83,7 @@ public class ExpenseScreenController extends BaseController {
         if (activeContextMenu != null) {
             activeContextMenu.hide();
         }
-        selectedItem = receiptListView.getSelectionModel().getSelectedItem();
+        selectedItem = expenseListView.getSelectionModel().getSelectedItem();
 
         if (selectedItem != null) {
 
@@ -122,12 +101,12 @@ public class ExpenseScreenController extends BaseController {
             contextMenu.getItems().addAll(editItem, deleteItem, closeMenu);
 
             // Show the context menu at the mouse click location
-            contextMenu.show(receiptListView, event.getScreenX(), event.getScreenY());
+            contextMenu.show(expenseListView, event.getScreenX(), event.getScreenY());
             // Keep a reference to the active context menu
             activeContextMenu = contextMenu;
 
             // Add an event handler to close the context menu when clicking outside
-            receiptListView.getScene().setOnMousePressed(e -> {
+            expenseListView.getScene().setOnMousePressed(e -> {
                 if (activeContextMenu != null) {
                     activeContextMenu.hide();
                     activeContextMenu = null;
@@ -138,13 +117,13 @@ public class ExpenseScreenController extends BaseController {
     private void handleEdit(Expense expense) {
         try {
             // Load the dialog FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cz/korpen/guardianfx/edit_receipt_dialog.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cz/korpen/guardianfx/edit_expense_dialog.fxml"));
             Parent root = loader.load();
 
 
             // Get the controller
-            EditReceiptDialogController controller = loader.getController();
-            controller.setReceipt(expense); // Pass the current expense object to the dialog
+            EditExpenseDialogController controller = loader.getController();
+            controller.setExpense(expense); // Pass the current expense object to the dialog
 
             // Create a dialog stage
             Stage dialogStage = new Stage();
@@ -152,17 +131,17 @@ public class ExpenseScreenController extends BaseController {
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initStyle(StageStyle.UNDECORATED); // Remove the title bar
 
-            dialogStage.initOwner(receiptListView.getScene().getWindow()); // Set the parent window
+            dialogStage.initOwner(expenseListView.getScene().getWindow()); // Set the parent window
             dialogStage.setScene(new Scene(root));
 
             // Show the dialog and wait for user input
             dialogStage.showAndWait();
 
             // After dialog closes, get the updated expense
-            expense = controller.getUpdatedReceipt();
+            expense = controller.getUpdatedExpense();
 
             // Optionally, refresh the ListView to reflect changes
-            receiptListView.refresh();
+            expenseListView.refresh();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -174,7 +153,7 @@ public class ExpenseScreenController extends BaseController {
         boolean confirm = showConfirmationDialog("Delete item?", "Do you really want to delete this item?");
         if (confirm) {
             expense.deleteExpense();
-            updateReceiptList();
+            updateExpenseList();
         }
     }
 

@@ -8,9 +8,11 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 public abstract class BaseDialogController<T, C> {
 
+    ResourceBundle resources = ResourceBundle.getBundle("/cz/korpen/guardianfx/messages");
     CategoryManager categoryManager = CategoryManager.getInstance();
     protected ListView<T> listView;
     protected T entity;
@@ -38,7 +40,7 @@ public abstract class BaseDialogController<T, C> {
     // Method for closing the dialog (could be reused across all dialog controllers)
     @FXML
     protected void closeDialog(ActionEvent event) {
-        boolean confirm = showConfirmationDialog("Confirmation", "Are you sure you want to cancel?");
+        boolean confirm = showConfirmationDialog(resources.getString("confirmation"), resources.getString("confirmNote"));
         if (confirm) {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.close();

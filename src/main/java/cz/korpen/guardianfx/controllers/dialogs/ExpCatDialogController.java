@@ -8,7 +8,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class RecCatDialogController extends BaseDialogController {
+public class ExpCatDialogController extends BaseDialogController {
 
     ListView<ExpenseCategory> purchaseCategoryListView;
 
@@ -16,13 +16,13 @@ public class RecCatDialogController extends BaseDialogController {
     private TextField descriptionTextField;
 
     @FXML
-    void addReceiptCategory(ActionEvent event) {
+    void addExpenseCategory(ActionEvent event) {
         if (titleTextField.getText().isEmpty() || titleTextField.getText() == null) {
             System.out.println("Title cannot be empty.");
         } else {
             String title = titleTextField.getText();
             ExpenseCategory expenseCategory = new ExpenseCategory(title, descriptionTextField.getText());
-            categoryManager.addPurchaseCategory(expenseCategory); // Show success message
+            categoryManager.addExpenseCategory(expenseCategory); // Show success message
 
             // Add new expense to the ListView in the main window
             if (purchaseCategoryListView != null) {

@@ -94,6 +94,7 @@ public class EditIncomeDialogController extends ItemDialogController<Income, Inc
     }
 
     public void setIncome(Income income) {
+        System.out.println("Setting income: " + income);
         this.income = income;
 
         titleTextField.setText(income.getTitle());

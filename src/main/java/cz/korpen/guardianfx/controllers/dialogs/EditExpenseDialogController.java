@@ -9,9 +9,9 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.util.List;
 
-public class EditReceiptDialogController extends ItemDialogController<Expense, ExpenseCategory> {
+public class EditExpenseDialogController extends ItemDialogController<Expense, ExpenseCategory> {
 
-    ListView<Expense> receiptListView;
+    ListView<Expense> expenseListView;
     Expense expense;
 
     @FXML
@@ -23,7 +23,7 @@ public class EditReceiptDialogController extends ItemDialogController<Expense, E
     }
 
     @FXML
-    void editReceipt(ActionEvent event) {
+    void editExpense(ActionEvent event) {
         String title = titleTextField.getText();
         double cost = 0;
         boolean isValid = true;
@@ -70,8 +70,8 @@ public class EditReceiptDialogController extends ItemDialogController<Expense, E
             expense.changeCategory(expense.getExpenseCategory(), categoryComboBox.getValue());
 
             // Add new expense to the ListView in the main window
-            if (receiptListView != null) {
-                receiptListView.getItems().add(expense); // Add the new expense
+            if (expenseListView != null) {
+                expenseListView.getItems().add(expense); // Add the new expense
             }
             // Show success message
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -91,16 +91,16 @@ public class EditReceiptDialogController extends ItemDialogController<Expense, E
     }
 
     private void populateComboBox() {
-        List<ExpenseCategory> categories = CategoryManager.getInstance().getPurchaseCategories();
+        List<ExpenseCategory> categories = CategoryManager.getInstance().getExpenseCategories();
         populateComboBox(categories);
     }
 
     // Setter for the ListView reference
-    public void setPurchaseListView(ListView<Expense> receiptListView) {
-        this.receiptListView = receiptListView;
+    public void setPurchaseListView(ListView<Expense> expenseListView) {
+        this.expenseListView = expenseListView;
     }
 
-    public void setReceipt(Expense expense) {
+    public void setExpense(Expense expense) {
         this.expense = expense;
 
         titleTextField.setText(expense.getTitle());
@@ -109,7 +109,7 @@ public class EditReceiptDialogController extends ItemDialogController<Expense, E
         categoryComboBox.setValue(expense.getExpenseCategory());
     }
 
-    public Expense getUpdatedReceipt() {
+    public Expense getUpdatedExpense() {
         // Update the income object with the new values
         expense.setTitle(titleTextField.getText());
         expense.setCost(Double.parseDouble(valueTextField.getText()));

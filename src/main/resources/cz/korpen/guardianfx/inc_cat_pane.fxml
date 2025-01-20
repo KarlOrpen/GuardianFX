@@ -54,7 +54,7 @@
             <ListView fx:id="incomeCategoryListView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="addIncomeCategoryButton" mnemonicParsing="false" onAction="#handleAddIncomeCategory" prefHeight="45.0" prefWidth="441.0" text="Add income category" />
+                  <Button fx:id="addIncomeCategoryButton" mnemonicParsing="false" onAction="#handleAddIncomeCategory" prefHeight="45.0" prefWidth="441.0" text="%addIncomeCategoryButton" />
                </children>
             </HBox>
          </children>

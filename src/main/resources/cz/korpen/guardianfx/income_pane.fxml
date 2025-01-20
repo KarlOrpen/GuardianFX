@@ -55,7 +55,7 @@
             <ListView fx:id="incomeListView" onContextMenuRequested="#editDelete" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="addIncomeButton" mnemonicParsing="false" onAction="#handleAddIncome" prefHeight="45.0" prefWidth="235.0" text="Add income" />
+                  <Button fx:id="addIncomeButton" mnemonicParsing="false" onAction="#handleAddIncome" prefHeight="45.0" prefWidth="235.0" text="%addIncomeButton" />
                   <Spinner fx:id="incomeYearSpinner" prefHeight="45.0" prefWidth="198.0" />
                </children>
             </HBox>

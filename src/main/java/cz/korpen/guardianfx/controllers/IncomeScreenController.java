@@ -1,9 +1,8 @@
 package cz.korpen.guardianfx.controllers;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
+import cz.korpen.guardianfx.FXMLHelper;
 import cz.korpen.guardianfx.controllers.dialogs.EditIncomeDialogController;
 import cz.korpen.guardianfx.controllers.dialogs.IncomeDialogController;
-import cz.korpen.guardianfx.manager.CategoryManager;
 import cz.korpen.guardianfx.manager.Income;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,12 +15,12 @@ import javafx.scene.control.*;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class IncomeScreenController extends BaseController {
 
@@ -41,36 +40,18 @@ public class IncomeScreenController extends BaseController {
 
     @FXML
     void handleAddIncome(ActionEvent event) {
-        try {
-            // Load the receipt dialog FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cz/korpen/guardianfx/income_dialog.fxml"));
+        // Show the dialog and get the controller
+        IncomeDialogController dialogController = FXMLHelper.showDialog(
+                "/cz/korpen/guardianfx/income_dialog.fxml",
+                resources,
+                resources.getString("incomeDialogTitle")
+        );
 
-            // Create the dialog's root node
-            Parent root = loader.load();
-
-            // Get the controller of the dialog (optional)
-            IncomeDialogController dialogController = loader.getController();
-
+        // Check if the controller is not null before interacting with it
+        if (dialogController != null) {
             dialogController.setIncomeListView(incomeListView);
-            // Create a new scene for the dialog
-            Scene dialogScene = new Scene(root);
-
-            // Create a new stage for the dialog
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Add Income");
-            dialogStage.setScene(dialogScene);
-
-            // Disable interaction with the main window while the dialog is open
-            dialogStage.initModality(Modality.APPLICATION_MODAL);
-            dialogStage.initStyle(StageStyle.UNDECORATED); // Remove the title bar
-
-            // Show the dialog
-            dialogStage.showAndWait();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle potential errors like FXML loading issues
         }
+        updateIncomeList();
     }
 
 
@@ -104,75 +85,74 @@ public class IncomeScreenController extends BaseController {
 
     @FXML
     public void editDelete(ContextMenuEvent event) {
-        // Close the currently open context menu, if any
+        // Close any currently open context menu
         if (activeContextMenu != null) {
             activeContextMenu.hide();
+            activeContextMenu = null;
         }
+
+        // Get the selected item from the ListView
         selectedItem = incomeListView.getSelectionModel().getSelectedItem();
 
         if (selectedItem != null) {
+            // Create a new context menu
+            ContextMenu contextMenu = new ContextMenu();
 
-        ContextMenu contextMenu = new ContextMenu();
+            // Create "Edit" menu item
+            MenuItem editItem = new MenuItem(resources.getString("edit"));
+            editItem.setOnAction(e -> {
+                contextMenu.hide(); // Close the context menu
+                handleEdit(selectedItem);
+            });
 
-        MenuItem editItem = new MenuItem("Edit");
-        editItem.setOnAction(e -> handleEdit(selectedItem));
+            // Create "Delete" menu item
+            MenuItem deleteItem = new MenuItem(resources.getString("delete"));
+            deleteItem.setOnAction(e -> {
+                contextMenu.hide(); // Close the context menu
+                handleDelete(selectedItem);
+            });
 
-        MenuItem deleteItem = new MenuItem("Delete");
-        deleteItem.setOnAction(e -> handleDelete(selectedItem));
+            // Create "Close" menu item
+            MenuItem closeMenu = new MenuItem(resources.getString("backButton"));
+            closeMenu.setOnAction(e -> contextMenu.hide());
 
-        MenuItem closeMenu = new MenuItem("Back");
-        closeMenu.setOnAction(e -> contextMenu.hide());
+            // Add all items to the context menu
+            contextMenu.getItems().addAll(editItem, deleteItem, closeMenu);
 
-        contextMenu.getItems().addAll(editItem, deleteItem, closeMenu);
+            // Show the context menu at the event's screen coordinates
+            contextMenu.show(incomeListView, event.getScreenX(), event.getScreenY());
+            activeContextMenu = contextMenu;
 
-        // Show the context menu at the mouse click location
-        contextMenu.show(incomeListView, event.getScreenX(), event.getScreenY());
-        // Keep a reference to the active context menu
-        activeContextMenu = contextMenu;
-
-        // Add an event handler to close the context menu when clicking outside
-        incomeListView.getScene().setOnMousePressed(e -> {
-            if (activeContextMenu != null) {
-                activeContextMenu.hide();
-                activeContextMenu = null;
-            }
-        });
+            // Add a mouse pressed event to close the context menu when clicking elsewhere
+            incomeListView.getScene().addEventFilter(javafx.scene.input.MouseEvent.MOUSE_PRESSED, e -> {
+                if (activeContextMenu != null && !contextMenu.isShowing()) {
+                    activeContextMenu.hide();
+                    activeContextMenu = null;
+                }
+            });
+        }
     }
-}
+
     private void handleEdit(Income income) {
-        try {
-            // Load the dialog FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cz/korpen/guardianfx/edit_income_dialog.fxml"));
-            Parent root = loader.load();
+        // Open the edit dialog and get its controller
+        EditIncomeDialogController dialogController = FXMLHelper.showDialog(
+                "/cz/korpen/guardianfx/edit_income_dialog.fxml",
+                resources,
+                resources.getString("editIncome")
+        );
 
-            // Get the controller
-            EditIncomeDialogController controller = loader.getController();
-            controller.setIncome(income); // Pass the current income object to the dialog
-
-            // Create a dialog stage
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Income");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(incomeListView.getScene().getWindow()); // Set the parent window
-            dialogStage.setScene(new Scene(root));
-
-            // Show the dialog and wait for user input
-            dialogStage.showAndWait();
-
-            // After dialog closes, get the updated income
-            income = controller.getUpdatedIncome();
-
-            // Optionally, refresh the ListView to reflect changes
-            incomeListView.refresh();
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        // Ensure the dialogController is not null
+        if (dialogController != null) {
+            dialogController.setIncome(income);
+            dialogController.setIncomeListView(incomeListView);
+            updateIncomeList();
         }
     }
 
 
+
     private void handleDelete(Income income) {
-        boolean confirm = showConfirmationDialog("Delete item?", "Do you really want to delete this item?");
+        boolean confirm = showConfirmationDialog(resources.getString("delete"), resources.getString("confirmDelete"));
         if (confirm) {
             income.deleteIncome();
             updateIncomeList();

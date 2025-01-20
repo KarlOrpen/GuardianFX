@@ -47,10 +47,7 @@ public class HomeScreenController extends BaseController {
     public void initialize() {
         selectedYear = LocalDate.now().getYear();
         initializeSpinner();
-        updateLabel();
         populateChart(selectedYear);
-        initializeTableColumns();
-
     }
 
 
@@ -58,8 +55,8 @@ public class HomeScreenController extends BaseController {
         // Create sample categories and add them to the category manager
         ExpenseCategory food = new ExpenseCategory("FOOD", "Food");
         ExpenseCategory entertainment = new ExpenseCategory("ENTERTAINMENT", "Entertainment");
-        categoryManager.addPurchaseCategory(food);
-        categoryManager.addPurchaseCategory(entertainment);
+        categoryManager.addExpenseCategory(food);
+        categoryManager.addExpenseCategory(entertainment);
 
         // Create sample receipts and add them to the categories
         Expense hamburger = new Expense("Hamburger", 100.0, LocalDate.of(2025, 01, 01), food);
@@ -89,13 +86,15 @@ public class HomeScreenController extends BaseController {
         // Clear previous data
         reportChart.getData().clear();
 
+        reportChart.getStylesheets().add(getClass().getResource("/cz/korpen/guardianfx/BarChartStyles.css").toExternalForm());
+
         // Create a series for Total Cost per Month
         XYChart.Series<String, Number> costSeries = new XYChart.Series<>();
-        costSeries.setName("Total Cost per Month");
+        costSeries.setName(resources.getString("expensesBar"));
 
         // Create a series for Monthly Income
         XYChart.Series<String, Number> incomeSeries = new XYChart.Series<>();
-        incomeSeries.setName("Monthly Income");
+        incomeSeries.setName(resources.getString("incomesBar"));
 
         // Iterate through months (1 to 12) to calculate total cost and income per month
         for (int month = 1; month <= 12; month++) {
@@ -109,7 +108,6 @@ public class HomeScreenController extends BaseController {
         }
         // Add both series to the chart
         reportChart.getData().addAll(costSeries, incomeSeries);
-        applyBarColors(costSeries, incomeSeries);
     }
 
 
